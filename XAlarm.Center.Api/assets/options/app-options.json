@@ -1,0 +1,52 @@
+{
+  "AppOptions": {
+    "AppUrl": {
+      "Protocol": "http",
+      "Host": "0.0.0.0",
+      "Port": 5010
+    },
+    "Database": {
+      "ConnectionString": "x-alarm-center.db"
+    },
+    "AppName": "xAlarm Center",
+    "AppNameAbbr": "x-alarm-center",
+    "AppConfigName": "x-alarm-center",
+    "MaxArchiveLogFiles": 31,
+    "LogLevel": 2,
+    "TokenExpiration": 1440,
+    "RefreshTokenExpiration": 7,
+    "VerifyCodeExpiration": 3,
+    "TimeZone": "Asia/Bangkok",
+    "Culture": "th-TH",
+    "ForceApplyMigrations": false,
+    "RabbitMqOptions": {
+      "Host": "localhost",
+      "Port": 15672,
+      "Username": "guest",
+      "Password": "guest",
+      "VirtualHost": "/"
+    },
+    "EmailOptions": {
+      "Enabled": true,
+      "SmtpHost": "smtp.gmail.com",
+      "SmtpPort": 587,
+      "Username": "course.dotnet.iot@gmail.com",
+      "Password": "zareqpauprgkzulm",
+      "Sender": "DotNETIoT Alarm",
+      "Recipients": "tn@colabscraft.com,thanee_no@yahoo.com",
+      "Subject": "Alarm !!!"
+    },
+    "LineOptions": {
+      "Enabled": false,
+      "Url": "https://api.line.me/v2/bot/message/push",
+      "Token": "+OfwXVH3mbzdLiLGgCUZqUBWH4q+PHqhKnrIg65L1/z4LiC7TO23JjdZf/KDMMXy3EDoCppbjyGJ0EP8wIw1tgiYvGJK0Av4CRupppzmeiGfvbBja9Vo9cuIK4YBzJ2k2f+6gOSYi/fGiIxyQQV9swdB04t89/1O/w1cDnyilFU=",
+      "GroupId": "Ce18ef2917c7ddf5df03804ad508ddeea"
+    },
+    "TelegramOptions": {
+      "Enabled": false,
+      "Url": "https://api.telegram.org",
+      "Token": "7766637393:AAG2ieRvIqIC9g6pNiLWxCPWVKY_M_rG5_0",
+      "ChatId": "-1002354459455"
+    }
+  }
+}

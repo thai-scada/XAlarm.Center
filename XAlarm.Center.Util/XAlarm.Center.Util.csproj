@@ -5,11 +5,8 @@
         <LangVersion>latest</LangVersion>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <PublishAot>true</PublishAot>
+        <AssemblyName>ext3</AssemblyName>
     </PropertyGroup>
-
-    <ItemGroup>
-      <PackageReference Include="MassTransit.Abstractions" Version="8.3.7" />
-    </ItemGroup>
 
 </Project>
