@@ -22,8 +22,8 @@
     "RabbitMqOptions": {
       "Host": "localhost",
       "Port": 15672,
-      "Username": "guest",
-      "Password": "guest",
+      "Username": "xalarm",
+      "Password": "xalarm",
       "VirtualHost": "/"
     },
     "EmailOptions": {

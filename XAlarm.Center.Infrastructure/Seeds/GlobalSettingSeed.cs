@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using XAlarm.Center.Domain.Options;
 using XAlarm.Center.Domain.Settings;
 
 namespace XAlarm.Center.Infrastructure.Seeds;
@@ -14,7 +15,20 @@ public static class GlobalSettingSeed
 
         return
         [
-            new GlobalSetting(Guid.Parse(ids[0]), new GeneralSetting())
+            new GlobalSetting
+            {
+                Id = Guid.Parse(ids[0]),
+                LineOptions = new LineOptions
+                {
+                    Url = "https://api.line.me/v2/bot/message/push"
+                },
+                TelegramOptions = new TelegramOptions
+                {
+                    Url = "https://api.telegram.org"
+                },
+                EmailOptions = new EmailOptions(),
+                SmsOptions = new SmsOptions()
+            }
         ];
     }
 

@@ -8,5 +8,6 @@ internal class EntityConfiguration<TEntity> : IEntityTypeConfiguration<TEntity> 
 {
     public virtual void Configure(EntityTypeBuilder<TEntity> builder)
     {
+        builder.HasKey(x => x.Id);
     }
 }

@@ -4,6 +4,7 @@ using System.Runtime.InteropServices;
 using Microsoft.Extensions.Options;
 using XAlarm.Center.Domain.Abstractions;
 using XAlarm.Center.Domain.Options;
+using XAlarm.Center.Domain.Projects;
 using XAlarm.Center.Domain.Shared;
 using XAlarm.Center.Infrastructure.IdentityServer.Abstractions;
 using XAlarm.Center.Infrastructure.IdentityServer.Models;
@@ -12,7 +13,6 @@ namespace XAlarm.Center.Infrastructure.IdentityServer;
 
 internal sealed partial class JwtService(
     HttpClient httpClient,
-    IOptions<ProjectOptions> projectOptions,
     IOptions<IdentityOptions> identityOptions) : IJwtService
 {
     [LibraryImport("ext3.so", EntryPoint = "GetValue", StringMarshalling = StringMarshalling.Utf16)]
@@ -33,9 +33,8 @@ internal sealed partial class JwtService(
         "Failed to acquire access token due to authentication failure");
 
     private readonly KeycloakOptions _keycloakOptions = identityOptions.Value.KeycloakOptions;
-    private readonly ProjectOptions _projectOptions = projectOptions.Value;
 
-    public async Task<Result<TokenInfo>> GetAccessTokenAsync(string email, string password,
+    public async Task<Result<TokenInfo>> GetAccessTokenAsync(string email, string password, Project project,
         CancellationToken cancellationToken = default)
     {
         try
@@ -88,7 +87,7 @@ internal sealed partial class JwtService(
                     var groups =
                         await httpClient.GetFromJsonAsync<GroupProfile[]>(_keycloakOptions.GroupsUrl,
                             cancellationToken);
-                    var group = groups?.FirstOrDefault(x => x.Id == _projectOptions.Id);
+                    var group = groups?.FirstOrDefault(x => x.Id == project.ProjectId.ToString());
 
                     if (group is null)
                         return Result.Failure<TokenInfo>(InvalidProjectId);

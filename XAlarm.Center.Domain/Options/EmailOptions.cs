@@ -6,7 +6,7 @@ public sealed class EmailOptions : AlarmOptions
     public int SmtpPort { get; init; }
     public string Username { get; init; } = string.Empty;
     public string Password { get; init; } = string.Empty;
-    public string Sender { get; set; } = string.Empty;
-    public string Recipients { get; set; } = string.Empty;
-    public string Subject { get; set; } = string.Empty;
+    public string Sender { get; init; } = string.Empty;
+    public string Recipients { get; init; } = string.Empty;
+    public string Subject { get; init; } = string.Empty;
 }

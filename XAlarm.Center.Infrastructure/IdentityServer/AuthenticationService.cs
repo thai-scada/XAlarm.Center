@@ -4,6 +4,7 @@ using System.Runtime.InteropServices;
 using Microsoft.Extensions.Options;
 using XAlarm.Center.Domain.Abstractions;
 using XAlarm.Center.Domain.Options;
+using XAlarm.Center.Domain.Projects;
 using XAlarm.Center.Domain.Shared;
 using XAlarm.Center.Infrastructure.IdentityServer.Abstractions;
 using XAlarm.Center.Infrastructure.IdentityServer.Models;
@@ -14,7 +15,6 @@ namespace XAlarm.Center.Infrastructure.IdentityServer;
 internal sealed partial class AuthenticationService(
     HttpClient httpClient,
     IOptions<AppOptions> appOptions,
-    IOptions<ProjectOptions> projectOptions,
     IOptions<IdentityOptions> identityOptions) : IAuthenticationService
 {
     [LibraryImport("ext3.so", EntryPoint = "GetValue", StringMarshalling = StringMarshalling.Utf16)]
@@ -40,10 +40,9 @@ internal sealed partial class AuthenticationService(
 
     private readonly AppOptions _appOptions = appOptions.Value;
     private readonly KeycloakOptions _keycloakOptions = identityOptions.Value.KeycloakOptions;
-    private readonly ProjectOptions _projectOptions = projectOptions.Value;
 
     public async Task<Result<string>> CreateAccountAsync(string email, string firstName, string lastName,
-        CancellationToken cancellationToken = default)
+        Project project, CancellationToken cancellationToken = default)
     {
         try
         {
@@ -72,7 +71,7 @@ internal sealed partial class AuthenticationService(
             httpClient.DefaultRequestHeaders.Authorization =
                 new AuthenticationHeaderValue("Bearer", authorizationToken?.AccessToken);
 
-            var defaultGroup = $"xalarm-{_projectOptions.Name}";
+            var defaultGroup = $"xalarm-{project.ProjectName}";
 
             if (email.Contains("thaiscada", StringComparison.CurrentCultureIgnoreCase))
                 defaultGroup = "xalarm-administrator";
@@ -80,7 +79,7 @@ internal sealed partial class AuthenticationService(
             {
                 var groups =
                     await httpClient.GetFromJsonAsync<GroupProfile[]>(_keycloakOptions.GroupsUrl, cancellationToken);
-                var group = groups?.FirstOrDefault(x => x.Id == _projectOptions.Id);
+                var group = groups?.FirstOrDefault(x => x.Id == project.ProjectId.ToString());
 
                 if (group is not null)
                 {

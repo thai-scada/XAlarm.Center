@@ -26,11 +26,13 @@ public static class DependencyInjection
                     options.UseSeeding((context, _) =>
                     {
                         GlobalSettingSeed.Seed(context, GlobalSettingSeed.GetEntities());
+                        ProjectSeed.Seed(context, ProjectSeed.GetEntities());
                     });
                     options.UseAsyncSeeding(async (context, _, cancellationToken) =>
                     {
                         await GlobalSettingSeed.SeedAsync(context, GlobalSettingSeed.GetEntities(),
                             cancellationToken);
+                        await ProjectSeed.SeedAsync(context, ProjectSeed.GetEntities(), cancellationToken);
                     });
                     break;
             }

@@ -1,20 +1,12 @@
-using System.Diagnostics.CodeAnalysis;
 using XAlarm.Center.Domain.Abstractions;
+using XAlarm.Center.Domain.Options;
 
 namespace XAlarm.Center.Domain.Settings;
 
 public sealed class GlobalSetting : Entity
 {
-    public GlobalSetting()
-    {
-    }
-
-    [SetsRequiredMembers]
-    public GlobalSetting(Guid id, GeneralSetting generalSetting)
-    {
-        Id = id;
-        GeneralSetting = generalSetting;
-    }
-
-    public GeneralSetting GeneralSetting { get; init; } = new();
+    public LineOptions LineOptions { get; init; } = new();
+    public TelegramOptions TelegramOptions { get; init; } = new();
+    public EmailOptions EmailOptions { get; init; } = new();
+    public SmsOptions SmsOptions { get; init; } = new();
 }
