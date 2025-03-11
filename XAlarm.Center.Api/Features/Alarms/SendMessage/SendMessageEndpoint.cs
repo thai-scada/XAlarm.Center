@@ -1,5 +1,7 @@
 using FastEndpoints;
+using XAlarm.Center.Domain.Users;
 using XAlarm.Center.Service.Abstractions;
+using XAlarm.Center.Shared.Extensions;
 
 namespace XAlarm.Center.Api.Features.Alarms.SendMessage;
 
@@ -7,9 +9,8 @@ public class SendMessageEndpoint(IAlarmService alarmService) : Endpoint<SendMess
 {
     public override void Configure()
     {
-        Get("api/alarms/sendMessage");
-        // Policies(RoleTypes.RealmBasic.GetDescription());
-        AllowAnonymous();
+        Post("api/alarms/sendMessage");
+        Policies(RoleTypes.RealmAdministrator.GetDescription());
         Description(x => x.WithTags("Abouts"));
     }
 

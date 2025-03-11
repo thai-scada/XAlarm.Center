@@ -3,7 +3,7 @@
     "AppUrl": {
       "Protocol": "http",
       "Host": "0.0.0.0",
-      "Port": 5010
+      "Port": 5020
     },
     "Database": {
       "ConnectionString": "x-alarm-center.db"
