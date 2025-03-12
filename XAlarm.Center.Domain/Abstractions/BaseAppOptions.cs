@@ -6,7 +6,7 @@ public abstract class BaseAppOptions
 {
     public string TenantId { get; set; } = string.Empty;
     public string DefaultTenantId { get; set; } = string.Empty;
-    public AppUrl AppUrls { get; init; } = new();
+    public AppUrl AppUrl { get; init; } = new();
     public Database Database { get; init; } = new();
     public string AppName { get; init; } = string.Empty;
     public string AppNameAbbr { get; init; } = string.Empty;

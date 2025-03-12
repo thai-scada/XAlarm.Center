@@ -72,7 +72,7 @@ internal sealed partial class ExecuteActionsEmailService(
             var userId = userProfiles.First().Id.ToString();
             response = await httpClient.PutAsJsonAsync(
                 _keycloakOptions.ExecuteActionsEmailUrl.Replace("{userId}", userId)
-                    .Replace("{redirectUri}", _appOptions.AppUrls.UrlLoopback),
+                    .Replace("{redirectUri}", _appOptions.AppUrl.UrlLoopback),
                 (string[]) ["VERIFY_EMAIL", "UPDATE_PASSWORD"], cancellationToken);
 
             response.EnsureSuccessStatusCode();
@@ -125,7 +125,7 @@ internal sealed partial class ExecuteActionsEmailService(
             var userId = userProfiles.First().Id.ToString();
             response = await httpClient.PutAsJsonAsync(
                 _keycloakOptions.ExecuteActionsEmailUrl.Replace("{userId}", userId)
-                    .Replace("{redirectUri}", _appOptions.AppUrls.UrlLoopback), (string[]) ["UPDATE_PASSWORD"],
+                    .Replace("{redirectUri}", _appOptions.AppUrl.UrlLoopback), (string[]) ["UPDATE_PASSWORD"],
                 cancellationToken);
 
             response.EnsureSuccessStatusCode();

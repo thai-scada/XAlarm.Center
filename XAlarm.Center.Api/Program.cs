@@ -86,6 +86,6 @@ if (app.Environment.IsDevelopment())
 }
 
 if (app.Environment.IsProduction())
-    builder.WebHost.UseUrls(appOptions.AppUrls.Url);
+    builder.WebHost.UseUrls(appOptions.AppUrl.Url);
 
 app.Run();
