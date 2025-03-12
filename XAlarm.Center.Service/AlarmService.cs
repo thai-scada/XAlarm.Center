@@ -20,7 +20,7 @@ namespace XAlarm.Center.Service;
 internal sealed class AlarmService(ILogger<AlarmService> logger, ApplicationDbContext dbContext, HttpClient httpClient)
     : IAlarmService
 {
-    public async Task<Event> SendAsync(AlarmPayload alarmPayload)
+    public async Task<Event> SendMessageAsync(AlarmPayload alarmPayload)
     {
         var globalSetting = await dbContext.GlobalSettings.AsNoTracking().SingleOrDefaultAsync();
 
@@ -41,7 +41,7 @@ internal sealed class AlarmService(ILogger<AlarmService> logger, ApplicationDbCo
                 MessageBegin = "Invalid project setting"
             };
 
-        return alarmPayload.ChannelId switch
+        return alarmPayload.AlarmChannel?.Type switch
         {
             _ => await SendLineAsync(globalSetting.LineOptions, project, alarmPayload)
         };
@@ -51,13 +51,19 @@ internal sealed class AlarmService(ILogger<AlarmService> logger, ApplicationDbCo
     {
         try
         {
-            if (alarmPayload.Message is null)
+            if (alarmPayload.AlarmChannel is not LineChannel lineChannel)
                 return new Event
                 {
-                    Type = (int)EventTypes.Error, TypeDescription = EventTypes.EmailSent.GetDescription(),
-                    MessageBegin = "Message missing"
+                    Type = (int)EventTypes.Error, TypeDescription = EventTypes.LineError.GetDescription(),
+                    MessageBegin = "Invalid LINE channel"
                 };
-            var message = alarmPayload.Message as LineMessage;
+            if (lineChannel.Message is null)
+                return new Event
+                {
+                    Type = (int)EventTypes.Error, TypeDescription = EventTypes.LineError.GetDescription(),
+                    MessageBegin = "LINE Message missing"
+                };
+            var message = lineChannel.Message;
             switch (message?.Type)
             {
                 default:
@@ -69,19 +75,20 @@ internal sealed class AlarmService(ILogger<AlarmService> logger, ApplicationDbCo
                         };
                     var pushMessagePayload = new PushMessagePayload
                     {
-                        To = alarmPayload.ChatId ?? string.Empty,
+                        To = alarmPayload.ChatId,
                         Messages = [flexMessage]
                     };
 
-                    httpClient.DefaultRequestHeaders.Authorization =
-                        new AuthenticationHeaderValue("Bearer",
-                            alarmPayload.Token ?? project.ProjectOptions.LineOptions.Token);
+                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer",
+                        string.IsNullOrEmpty(alarmPayload.Token)
+                            ? project.ProjectOptions.LineOptions.Token
+                            : alarmPayload.Token);
                     httpClient.DefaultRequestHeaders.Add("X-Line-Retry-Key", Guid.NewGuid().ToString());
 
-                    // var response = await httpClient.PostAsJsonAsync(lineOptions.Url, pushMessagePayload,
-                    //     JsonHelper.IgnoreNullJsonSerializerOptions);
-                    //
-                    // response.EnsureSuccessStatusCode();
+                    var response = await httpClient.PostAsJsonAsync(lineOptions.Url, pushMessagePayload,
+                        JsonHelper.IgnoreNullJsonSerializerOptions);
+
+                    response.EnsureSuccessStatusCode();
                     logger.LogInformation("LINE sent: {GroupId}", alarmPayload.ChatId);
 
                     return new Event

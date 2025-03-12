@@ -5,5 +5,5 @@ namespace XAlarm.Center.Service.Abstractions;
 
 public interface IAlarmService
 {
-    Task<Event> SendAsync(AlarmPayload alarmPayload);
+    Task<Event> SendMessageAsync(AlarmPayload alarmPayload);
 }

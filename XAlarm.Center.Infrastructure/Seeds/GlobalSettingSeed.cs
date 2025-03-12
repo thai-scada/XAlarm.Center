@@ -20,7 +20,9 @@ public static class GlobalSettingSeed
                 Id = Guid.Parse(ids[0]),
                 LineOptions = new LineOptions
                 {
-                    Url = "https://api.line.me/v2/bot/message/push"
+                    Url = "https://api.line.me/v2/bot/message/push",
+                    GetTargetLimitThisMonthUrl = "https://api.line.me/v2/bot/message/quota",
+                    GetNumberOfMessagesSentThisMonthUrl = "https://api.line.me/v2/bot/message/quota/consumption"
                 },
                 TelegramOptions = new TelegramOptions
                 {

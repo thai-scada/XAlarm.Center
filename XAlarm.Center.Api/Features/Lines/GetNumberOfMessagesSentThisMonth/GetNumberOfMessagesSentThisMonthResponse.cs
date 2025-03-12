@@ -1,0 +1,5 @@
+using XAlarm.Center.Domain.Options;
+
+namespace XAlarm.Center.Api.Features.Lines.GetNumberOfMessagesSentThisMonth;
+
+public record GetNumberOfMessagesSentThisMonthResponse(NumberOfMessagesSentThisMonth NumberOfMessagesSentThisMonth);

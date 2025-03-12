@@ -11,12 +11,12 @@ public class SendMessageEndpoint(IAlarmService alarmService) : Endpoint<SendMess
     {
         Post("api/alarms/sendMessage");
         Policies(RoleTypes.RealmAdministrator.GetDescription());
-        Description(x => x.WithTags("Abouts"));
+        Description(x => x.WithTags("Alarms"));
     }
 
     public override async Task HandleAsync(SendMessageRequest request, CancellationToken cancellationToken)
     {
         await SendResultAsync(
-            TypedResults.Ok(new SendMessageResponse(await alarmService.SendAsync(request.AlarmPayload))));
+            TypedResults.Ok(new SendMessageResponse(await alarmService.SendMessageAsync(request.AlarmPayload))));
     }
 }

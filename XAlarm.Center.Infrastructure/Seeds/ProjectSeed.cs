@@ -56,7 +56,7 @@ public static class ProjectSeed
                     {
                         Enabled = true,
                         Token =
-                            "XsHQB267fv3aQvspwnL+3iFIMkF+JT7uJZ0RFYgq283p0t0bZbUoWsh66/aT++B8f7QcVdIrL4txhNOEGKKSvUfyZxZF3ye+suCemNtdZfPTf5RDU/1PdmGociriE1Q2BPJXAAyqZlErIDlF9TAR9QdB04t89/1O/w1cDnyilFU="
+                            "bwZMJS7dZYqLwfvzgOO9+02R41LAc4BMoB/yqsbvEtCJlsiuKWeAGYKdwhaZvzFnMLHZUw7ZHL+63HjzyxiFftjsC+0zniLR6CbH+V/mr3rVn2XHf/M9krKYZxvmV58nvIDcPCB8idfEHbmNVMR25QdB04t89/1O/w1cDnyilFU="
                     },
                     TelegramOptions = new TelegramOptions
                     {

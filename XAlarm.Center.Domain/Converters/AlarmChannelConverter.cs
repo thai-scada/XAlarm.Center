@@ -8,11 +8,11 @@ using XAlarm.Center.Domain.Messages.Telegrams;
 
 namespace XAlarm.Center.Domain.Converters;
 
-internal sealed class AlarmMessageConverter : JsonConverter<AlarmMessage>
+internal sealed class AlarmChannelConverter : JsonConverter<AlarmChannel>
 {
-    public override bool CanConvert(Type typeToConvert) => typeof(AlarmMessage).IsAssignableFrom(typeToConvert);
+    public override bool CanConvert(Type typeToConvert) => typeof(AlarmChannel).IsAssignableFrom(typeToConvert);
 
-    public override AlarmMessage Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    public override AlarmChannel Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         if (reader.TokenType != JsonTokenType.StartObject)
             throw new JsonException();
@@ -24,28 +24,28 @@ internal sealed class AlarmMessageConverter : JsonConverter<AlarmMessage>
         var rawText = jsonDocument.RootElement.GetRawText();
         return typeProperty.GetString() switch
         {
-            "line" => JsonSerializer.Deserialize<LineMessage>(rawText, options)!,
-            "telegram" => JsonSerializer.Deserialize<TelegramMessage>(rawText, options)!,
-            "email" => JsonSerializer.Deserialize<EmailMessage>(rawText, options)!,
-            "sms" => JsonSerializer.Deserialize<SmsMessage>(rawText, options)!,
+            "line" => JsonSerializer.Deserialize<LineChannel>(rawText, options)!,
+            "telegram" => JsonSerializer.Deserialize<TelegramChannel>(rawText, options)!,
+            "email" => JsonSerializer.Deserialize<EmailChannel>(rawText, options)!,
+            "sms" => JsonSerializer.Deserialize<SmsChannel>(rawText, options)!,
             _ => throw new JsonException()
         };
     }
 
-    public override void Write(Utf8JsonWriter writer, AlarmMessage value, JsonSerializerOptions options)
+    public override void Write(Utf8JsonWriter writer, AlarmChannel value, JsonSerializerOptions options)
     {
         switch (value)
         {
-            case LineMessage message:
+            case LineChannel message:
                 JsonSerializer.Serialize(writer, message, options);
                 break;
-            case TelegramMessage message:
+            case TelegramChannel message:
                 JsonSerializer.Serialize(writer, message, options);
                 break;
-            case EmailMessage message:
+            case EmailChannel message:
                 JsonSerializer.Serialize(writer, message, options);
                 break;
-            case SmsMessage message:
+            case SmsChannel message:
                 JsonSerializer.Serialize(writer, message, options);
                 break;
         }
