@@ -1,6 +1,7 @@
 using FastEndpoints;
 using FastEndpoints.Swagger;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting.WindowsServices;
 using Scalar.AspNetCore;
 using Serilog;
@@ -78,6 +79,12 @@ app.UseAuthorization();
 app.UseDefaultFiles();
 app.UseStaticFiles();
 app.MapFallbackToFile("index.html");
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(Path.Combine(AppContext.BaseDirectory, "..", "assets", "images")),
+    RequestPath = "/images"
+});
 
 if (app.Environment.IsDevelopment())
 {
