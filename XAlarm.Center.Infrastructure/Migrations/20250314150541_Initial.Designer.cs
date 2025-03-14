@@ -11,14 +11,14 @@ using XAlarm.Center.Infrastructure;
 namespace XAlarm.Center.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250312083122_Initial")]
+    [Migration("20250314150541_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "9.0.2");
+            modelBuilder.HasAnnotation("ProductVersion", "9.0.3");
 
             modelBuilder.Entity("XAlarm.Center.Domain.Projects.Project", b =>
                 {

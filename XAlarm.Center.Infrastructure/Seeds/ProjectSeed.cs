@@ -160,6 +160,31 @@ public static class ProjectSeed
                         Token = string.Empty
                     }
                 }
+            },
+            new Project
+            {
+                Id = Guid.Parse(ids[6]),
+                ProjectId = Guid.Parse("51ad54da-29b8-428b-89e1-f01908bc5b48"),
+                ProjectName = "Test",
+                ProjectGroupId = Guid.Parse("51ad54da-29b8-428b-89e1-f01908bc5b48"),
+                DongleId = "1234abcd",
+                InvoiceNo = string.Empty,
+                ValidUntil = DateTime.UtcNow.AddYears(1),
+                ProjectOptions = new ProjectOptions
+                {
+                    EmailOptions = new EmailOptions(),
+                    LineOptions = new LineOptions
+                    {
+                        Enabled = true,
+                        Token =
+                            "XsHQB267fv3aQvspwnL+3iFIMkF+JT7uJZ0RFYgq283p0t0bZbUoWsh66/aT++B8f7QcVdIrL4txhNOEGKKSvUfyZxZF3ye+suCemNtdZfPTf5RDU/1PdmGociriE1Q2BPJXAAyqZlErIDlF9TAR9QdB04t89/1O/w1cDnyilFU="
+                    },
+                    TelegramOptions = new TelegramOptions
+                    {
+                        Enabled = true,
+                        Token = "8195040424:AAH4yq8EB4yY09ffeTKWh4JFkWq_5dl85HM",
+                    }
+                }
             }
         ];
     }
