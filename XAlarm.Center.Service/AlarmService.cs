@@ -20,25 +20,25 @@ namespace XAlarm.Center.Service;
 internal sealed class AlarmService(ILogger<AlarmService> logger, ApplicationDbContext dbContext, HttpClient httpClient)
     : IAlarmService
 {
-    public async Task<Event> SendMessageAsync(AlarmPayload alarmPayload)
+    public async Task<MessageEvent> SendMessageAsync(AlarmPayload alarmPayload)
     {
         var globalSetting = await dbContext.GlobalSettings.AsNoTracking().SingleOrDefaultAsync();
 
         if (globalSetting is null)
-            return new Event
+            return new MessageEvent
             {
-                Type = (int)EventTypes.Error, TypeDescription = EventTypes.EmailSent.GetDescription(),
-                MessageBegin = "Invalid system setting"
+                IsSuccess = false, Type = (int)EventTypes.Error,
+                TypeDescription = EventTypes.EmailSent.GetDescription(), MessageBegin = "Invalid system setting"
             };
 
         var project = await dbContext.Projects.AsNoTracking()
             .SingleOrDefaultAsync(x => x.ProjectId == alarmPayload.ProjectId);
 
         if (project is null)
-            return new Event
+            return new MessageEvent
             {
-                Type = (int)EventTypes.Error, TypeDescription = EventTypes.EmailSent.GetDescription(),
-                MessageBegin = "Invalid project setting"
+                IsSuccess = false, Type = (int)EventTypes.Error,
+                TypeDescription = EventTypes.EmailSent.GetDescription(), MessageBegin = "Invalid project setting"
             };
 
         return alarmPayload.AlarmChannel?.Type switch
@@ -47,30 +47,31 @@ internal sealed class AlarmService(ILogger<AlarmService> logger, ApplicationDbCo
         };
     }
 
-    private async Task<Event> SendLineAsync(LineOptions lineOptions, Project project, AlarmPayload alarmPayload)
+    private async Task<MessageEvent> SendLineAsync(LineOptions lineOptions, Project project, AlarmPayload alarmPayload)
     {
         try
         {
             if (alarmPayload.AlarmChannel is not LineChannel lineChannel)
-                return new Event
+                return new MessageEvent
                 {
-                    Type = (int)EventTypes.Error, TypeDescription = EventTypes.LineError.GetDescription(),
-                    MessageBegin = "Invalid LINE channel"
+                    IsSuccess = false, Type = (int)EventTypes.Error,
+                    TypeDescription = EventTypes.LineError.GetDescription(), MessageBegin = "Invalid LINE channel"
                 };
             if (lineChannel.Message is null)
-                return new Event
+                return new MessageEvent
                 {
-                    Type = (int)EventTypes.Error, TypeDescription = EventTypes.LineError.GetDescription(),
-                    MessageBegin = "LINE Message missing"
+                    IsSuccess = false, Type = (int)EventTypes.Error,
+                    TypeDescription = EventTypes.LineError.GetDescription(), MessageBegin = "LINE Message missing"
                 };
             var message = lineChannel.Message;
             switch (message?.Type)
             {
                 default:
                     if (message is not FlexMessage flexMessage)
-                        return new Event
+                        return new MessageEvent
                         {
-                            Type = (int)EventTypes.Error, TypeDescription = EventTypes.EmailSent.GetDescription(),
+                            IsSuccess = false, Type = (int)EventTypes.Error,
+                            TypeDescription = EventTypes.EmailSent.GetDescription(),
                             MessageBegin = "Invalid message format"
                         };
                     var pushMessagePayload = new PushMessagePayload
@@ -91,20 +92,21 @@ internal sealed class AlarmService(ILogger<AlarmService> logger, ApplicationDbCo
                     response.EnsureSuccessStatusCode();
                     logger.LogInformation("LINE sent: {GroupId}", alarmPayload.ChatId);
 
-                    return new Event
+                    return new MessageEvent
                     {
-                        Type = (int)EventTypes.LineSent, TypeDescription = EventTypes.LineSent.GetDescription(),
-                        MessageBegin = "LINE sent"
+                        IsSuccess = true, Type = (int)EventTypes.LineSent,
+                        TypeDescription = EventTypes.LineSent.GetDescription(), MessageBegin = "LINE sent"
                     };
             }
         }
         catch (Exception ex)
         {
             logger.LogError("Error occurred while sending LINE: {Message}", ex.Message);
-            return new Event
+            return new MessageEvent
             {
-                Type = (int)EventTypes.LineError, TypeDescription = EventTypes.LineError.GetDescription(),
-                MessageBegin = $"Error occurred while sending 'LINE': {ex.Message}"
+                IsSuccess = false, Type = (int)EventTypes.LineError,
+                TypeDescription = EventTypes.LineError.GetDescription(),
+                MessageBegin = ex.Message
             };
         }
     }
