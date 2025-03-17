@@ -5,12 +5,14 @@ using Microsoft.Extensions.Logging;
 using XAlarm.Center.Domain.Events;
 using XAlarm.Center.Domain.Messages;
 using XAlarm.Center.Domain.Messages.Lines;
+using XAlarm.Center.Domain.Messages.Telegrams;
 using XAlarm.Center.Domain.Options;
 using XAlarm.Center.Domain.Projects;
 using XAlarm.Center.Infrastructure;
 using XAlarm.Center.Service.Abstractions;
 using XAlarm.Center.Shared.Extensions;
 using XAlarm.Center.Shared.Helpers;
+using TextMessage = XAlarm.Center.Domain.Messages.Telegrams.TextMessage;
 
 // ReSharper disable EntityFramework.NPlusOne.IncompleteDataUsage
 // ReSharper disable EntityFramework.NPlusOne.IncompleteDataQuery
@@ -43,6 +45,7 @@ internal sealed class AlarmService(ILogger<AlarmService> logger, ApplicationDbCo
 
         return alarmPayload.AlarmChannel?.Type switch
         {
+            "telegram" => await SendTelegramAsync(globalSetting.TelegramOptions, project, alarmPayload),
             _ => await SendLineAsync(globalSetting.LineOptions, project, alarmPayload)
         };
     }
@@ -54,14 +57,14 @@ internal sealed class AlarmService(ILogger<AlarmService> logger, ApplicationDbCo
             if (alarmPayload.AlarmChannel is not LineChannel lineChannel)
                 return new MessageEvent
                 {
-                    IsSuccess = false, Type = (int)EventTypes.Error,
+                    IsSuccess = false, Type = (int)EventTypes.LineError,
                     TypeDescription = EventTypes.LineError.GetDescription(), MessageBegin = "Invalid LINE channel"
                 };
             if (lineChannel.Message is null)
                 return new MessageEvent
                 {
-                    IsSuccess = false, Type = (int)EventTypes.Error,
-                    TypeDescription = EventTypes.LineError.GetDescription(), MessageBegin = "LINE Message missing"
+                    IsSuccess = false, Type = (int)EventTypes.LineError,
+                    TypeDescription = EventTypes.LineError.GetDescription(), MessageBegin = "LINE message missing"
                 };
             var message = lineChannel.Message;
             switch (message?.Type)
@@ -70,8 +73,8 @@ internal sealed class AlarmService(ILogger<AlarmService> logger, ApplicationDbCo
                     if (message is not FlexMessage flexMessage)
                         return new MessageEvent
                         {
-                            IsSuccess = false, Type = (int)EventTypes.Error,
-                            TypeDescription = EventTypes.EmailSent.GetDescription(),
+                            IsSuccess = false, Type = (int)EventTypes.LineError,
+                            TypeDescription = EventTypes.LineError.GetDescription(),
                             MessageBegin = "Invalid message format"
                         };
                     var pushMessagePayload = new PushMessagePayload
@@ -106,6 +109,62 @@ internal sealed class AlarmService(ILogger<AlarmService> logger, ApplicationDbCo
             {
                 IsSuccess = false, Type = (int)EventTypes.LineError,
                 TypeDescription = EventTypes.LineError.GetDescription(),
+                MessageBegin = ex.Message
+            };
+        }
+    }
+
+    private async Task<MessageEvent> SendTelegramAsync(TelegramOptions telegramOptions, Project project,
+        AlarmPayload alarmPayload)
+    {
+        try
+        {
+            if (alarmPayload.AlarmChannel is not TelegramChannel telegramChannel)
+                return new MessageEvent
+                {
+                    IsSuccess = false, Type = (int)EventTypes.TelegramError,
+                    TypeDescription = EventTypes.TelegramError.GetDescription(),
+                    MessageBegin = "Invalid Telegram channel"
+                };
+            if (telegramChannel.Message is null)
+                return new MessageEvent
+                {
+                    IsSuccess = false, Type = (int)EventTypes.TelegramError,
+                    TypeDescription = EventTypes.TelegramError.GetDescription(),
+                    MessageBegin = "Telegram message missing"
+                };
+            var message = telegramChannel.Message;
+            switch (message?.Type)
+            {
+                default:
+                    if (message is not TextMessage textMessage)
+                        return new MessageEvent
+                        {
+                            IsSuccess = false, Type = (int)EventTypes.TelegramError,
+                            TypeDescription = EventTypes.TelegramError.GetDescription(),
+                            MessageBegin = "Invalid message format"
+                        };
+
+                    var getUri =
+                        $"{telegramOptions.Url}/bot{(string.IsNullOrEmpty(alarmPayload.Token) ? project.ProjectOptions.TelegramOptions.Token : alarmPayload.Token)}/sendMessage?chat_id={alarmPayload.ChatId}&parse_mode=HTML&text={textMessage.Text}";
+                    var response = await httpClient.GetAsync(getUri);
+                    response.EnsureSuccessStatusCode();
+                    logger.LogInformation("Telegram sent: {GroupId}", alarmPayload.ChatId);
+
+                    return new MessageEvent
+                    {
+                        IsSuccess = true, Type = (int)EventTypes.TelegramSent,
+                        TypeDescription = EventTypes.TelegramSent.GetDescription(), MessageBegin = "Telegram sent"
+                    };
+            }
+        }
+        catch (Exception ex)
+        {
+            logger.LogError("Error occurred while sending Telegram: {Message}", ex.Message);
+            return new MessageEvent
+            {
+                IsSuccess = false, Type = (int)EventTypes.TelegramError,
+                TypeDescription = EventTypes.TelegramError.GetDescription(),
                 MessageBegin = ex.Message
             };
         }

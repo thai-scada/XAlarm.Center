@@ -16,6 +16,6 @@ public enum EventTypes
     [Description("LINE Notify error")] LineNotifyError = 105,
     [Description("LINE sent")] LineSent = 106,
     [Description("LINE error")] LineError = 107,
-    [Description("Telegram sent")] TelegramBotSent = 108,
-    [Description("Telegram error")] TelegramBotError = 109
+    [Description("Telegram sent")] TelegramSent = 108,
+    [Description("Telegram error")] TelegramError = 109
 }
