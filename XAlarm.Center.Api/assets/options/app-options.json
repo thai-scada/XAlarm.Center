@@ -22,18 +22,18 @@
     "RabbitMqOptions": {
       "Host": "localhost",
       "Port": 15672,
-      "Username": "xalarm",
-      "Password": "#[XalarM]#",
+      "Username": "guest",
+      "Password": "guest",
       "VirtualHost": "/"
     },
     "EmailOptions": {
       "Enabled": true,
       "SmtpHost": "smtp.gmail.com",
       "SmtpPort": 587,
-      "Username": "course.dotnet.iot@gmail.com",
-      "Password": "zareqpauprgkzulm",
-      "Sender": "DotNETIoT Alarm",
-      "Recipients": "tn@colabscraft.com,thanee_no@yahoo.com",
+      "Username": "",
+      "Password": "",
+      "Sender": "xAlarm",
+      "Recipients": "",
       "Subject": "Alarm !!!"
     },
     "LineOptions": {
