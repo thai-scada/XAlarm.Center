@@ -54,6 +54,13 @@ internal sealed class AlarmService(ILogger<AlarmService> logger, ApplicationDbCo
     {
         try
         {
+            if (!(project.ProjectId == alarmPayload.ProjectId &&
+                  project.DongleId.Equals(alarmPayload.DongleId, StringComparison.OrdinalIgnoreCase)))
+                return new MessageEvent
+                {
+                    IsSuccess = false, Type = (int)EventTypes.Error,
+                    TypeDescription = EventTypes.InvalidLicense.GetDescription(), MessageBegin = "Invalid license"
+                };
             if (alarmPayload.AlarmChannel is not LineChannel lineChannel)
                 return new MessageEvent
                 {
