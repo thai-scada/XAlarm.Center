@@ -119,7 +119,7 @@ public static class ProjectSeed
                 ProjectId = Guid.Parse("09bdc733-78d8-4399-92fd-2e5e772045ad"),
                 ProjectName = "Flowmeters Thai - Sirat Expressway",
                 ProjectGroupId = Guid.Parse("09bdc733-78d8-4399-92fd-2e5e772045ad"),
-                DongleId = string.Empty,
+                DongleId = "1f916e5a",
                 InvoiceNo = string.Empty,
                 ValidUntil = DateTime.UtcNow.AddYears(1),
                 ProjectOptions = new ProjectOptions
@@ -183,6 +183,30 @@ public static class ProjectSeed
                     {
                         Enabled = true,
                         Token = "8195040424:AAH4yq8EB4yY09ffeTKWh4JFkWq_5dl85HM",
+                    }
+                }
+            },
+            new Project
+            {
+                Id = Guid.Parse(ids[7]),
+                ProjectId = Guid.Parse("e79e6381-f5f2-425b-86a7-2203035b4b41"),
+                ProjectName = "Grand Digital - Ayutthaya Hospital",
+                ProjectGroupId = Guid.Parse("e79e6381-f5f2-425b-86a7-2203035b4b41"),
+                DongleId = "80822c00",
+                InvoiceNo = string.Empty,
+                ValidUntil = DateTime.UtcNow.AddYears(1),
+                ProjectOptions = new ProjectOptions
+                {
+                    EmailOptions = new EmailOptions(),
+                    LineOptions = new LineOptions
+                    {
+                        Enabled = true,
+                        Token = string.Empty
+                    },
+                    TelegramOptions = new TelegramOptions
+                    {
+                        Enabled = true,
+                        Token = string.Empty
                     }
                 }
             }
