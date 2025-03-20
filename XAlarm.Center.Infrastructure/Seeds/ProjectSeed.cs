@@ -194,7 +194,7 @@ public static class ProjectSeed
                 ProjectId = Guid.Parse("e79e6381-f5f2-425b-86a7-2203035b4b41"),
                 ProjectName = "Grand Digital - Ayutthaya Hospital",
                 ProjectGroupId = Guid.Parse("e79e6381-f5f2-425b-86a7-2203035b4b41"),
-                DongleId = "80822c00",
+                DongleId = "8071a80d",
                 InvoiceNo = string.Empty,
                 ValidUntil = DateTime.UtcNow.AddYears(1),
                 ProjectOptions = new ProjectOptions

@@ -11,7 +11,7 @@ using XAlarm.Center.Infrastructure;
 namespace XAlarm.Center.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250320110547_Initial")]
+    [Migration("20250320114453_Initial")]
     partial class Initial
     {
         /// <inheritdoc />

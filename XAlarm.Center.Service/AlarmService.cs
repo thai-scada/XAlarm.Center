@@ -1,5 +1,6 @@
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
+using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using XAlarm.Center.Domain.Events;
@@ -54,6 +55,13 @@ internal sealed class AlarmService(ILogger<AlarmService> logger, ApplicationDbCo
     {
         try
         {
+            logger.LogInformation("Client: {ProjectId} - {DongleId}", alarmPayload.ProjectId, alarmPayload.DongleId);
+            logger.LogInformation("Server: {ProjectName} - {ProjectId} - {DongleId}", project.ProjectName,
+                project.ProjectId, project.DongleId);
+            logger.LogInformation("LINE Token: {Token}",
+                string.IsNullOrEmpty(alarmPayload.Token)
+                    ? $"Server - {project.ProjectOptions.LineOptions.Token}"
+                    : $"Client - {alarmPayload.Token}");
             if (!(project.ProjectId == alarmPayload.ProjectId &&
                   project.DongleId.Equals(alarmPayload.DongleId, StringComparison.OrdinalIgnoreCase)))
                 return new MessageEvent
@@ -84,11 +92,20 @@ internal sealed class AlarmService(ILogger<AlarmService> logger, ApplicationDbCo
                             TypeDescription = EventTypes.LineError.GetDescription(),
                             MessageBegin = "Invalid message format"
                         };
+
+                    flexMessage.AltText = flexMessage.AltText.Length > 100
+                        ? flexMessage.AltText[..100]
+                        : flexMessage.AltText;
+
                     var pushMessagePayload = new PushMessagePayload
                     {
                         To = alarmPayload.ChatId,
                         Messages = [flexMessage]
                     };
+
+                    logger.LogInformation("Chat ID: {ChatId}", alarmPayload.ChatId);
+                    logger.LogInformation("Payload: {Payload}",
+                        JsonSerializer.Serialize(pushMessagePayload, JsonHelper.IgnoreNullJsonSerializerOptions));
 
                     httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer",
                         string.IsNullOrEmpty(alarmPayload.Token)

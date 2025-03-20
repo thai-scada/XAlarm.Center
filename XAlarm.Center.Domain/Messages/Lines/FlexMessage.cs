@@ -2,7 +2,7 @@ namespace XAlarm.Center.Domain.Messages.Lines;
 
 public sealed class FlexMessage : LineMessage
 {
-    public required string AltText { get; init; }
+    public required string AltText { get; set; }
     public required Content Contents { get; init; }
 }
 
