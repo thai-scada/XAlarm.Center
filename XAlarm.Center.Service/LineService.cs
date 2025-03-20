@@ -1,6 +1,7 @@
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using XAlarm.Center.Domain.Options;
 using XAlarm.Center.Infrastructure;
 using XAlarm.Center.Service.Abstractions;
@@ -10,7 +11,8 @@ using XAlarm.Center.Service.Abstractions;
 
 namespace XAlarm.Center.Service;
 
-internal sealed class LineService(ApplicationDbContext dbContext, HttpClient httpClient) : ILineService
+internal sealed class LineService(ILogger<LineService> logger, ApplicationDbContext dbContext, HttpClient httpClient)
+    : ILineService
 {
     public async Task<TargetLimitThisMonth> GetTargetLimitThisMonthAsync(Guid projectId)
     {
@@ -25,8 +27,9 @@ internal sealed class LineService(ApplicationDbContext dbContext, HttpClient htt
             return await httpClient.GetFromJsonAsync<TargetLimitThisMonth>(globalSetting.LineOptions
                 .GetTargetLimitThisMonthUrl) ?? new TargetLimitThisMonth(string.Empty, 0);
         }
-        catch
+        catch (Exception ex)
         {
+            logger.LogError("{Message}", ex.Message);
             return new TargetLimitThisMonth(string.Empty, 0);
         }
     }
@@ -44,8 +47,9 @@ internal sealed class LineService(ApplicationDbContext dbContext, HttpClient htt
             return await httpClient.GetFromJsonAsync<NumberOfMessagesSentThisMonth>(globalSetting.LineOptions
                 .GetNumberOfMessagesSentThisMonthUrl) ?? new NumberOfMessagesSentThisMonth(0);
         }
-        catch
+        catch (Exception ex)
         {
+            logger.LogError("{Message}", ex.Message);
             return new NumberOfMessagesSentThisMonth(0);
         }
     }
