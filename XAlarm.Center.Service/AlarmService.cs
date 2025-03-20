@@ -63,7 +63,7 @@ internal sealed class AlarmService(ILogger<AlarmService> logger, ApplicationDbCo
                     ? $"Server - {project.ProjectOptions.LineOptions.Token}"
                     : $"Client - {alarmPayload.Token}");
             if (!(project.ProjectId == alarmPayload.ProjectId &&
-                  project.DongleId.Equals(alarmPayload.DongleId, StringComparison.OrdinalIgnoreCase)))
+                  project.DongleId.Contains(alarmPayload.DongleId, StringComparison.OrdinalIgnoreCase)))
                 return new MessageEvent
                 {
                     IsSuccess = false, Type = (int)EventTypes.Error,

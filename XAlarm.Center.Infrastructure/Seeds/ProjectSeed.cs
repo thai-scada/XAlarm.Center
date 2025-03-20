@@ -71,7 +71,7 @@ public static class ProjectSeed
                 ProjectId = Guid.Parse("e154ce10-6eab-47bd-b96f-bf058633674b"),
                 ProjectName = "Aroon Roong Hitechnology - Hon Chuan",
                 ProjectGroupId = Guid.Parse("e154ce10-6eab-47bd-b96f-bf058633674b"),
-                DongleId = "8090ac0e",
+                DongleId = "8090ac0e,18ab0536",
                 InvoiceNo = string.Empty,
                 ValidUntil = DateTime.UtcNow.AddYears(1),
                 ProjectOptions = new ProjectOptions
@@ -96,7 +96,7 @@ public static class ProjectSeed
                 ProjectId = Guid.Parse("d9635148-f283-4378-9649-dfec9989e83c"),
                 ProjectName = "Aroon Roong Hitechnology - Faculty of Medicine, Khon Kaen University",
                 ProjectGroupId = Guid.Parse("d9635148-f283-4378-9649-dfec9989e83c"),
-                DongleId = "8090ac03",
+                DongleId = "8090ac03,18ab0536",
                 InvoiceNo = string.Empty,
                 ValidUntil = DateTime.UtcNow.AddYears(1),
                 ProjectOptions = new ProjectOptions
@@ -121,7 +121,7 @@ public static class ProjectSeed
                 ProjectId = Guid.Parse("09bdc733-78d8-4399-92fd-2e5e772045ad"),
                 ProjectName = "Flowmeters Thai - Sirat Expressway",
                 ProjectGroupId = Guid.Parse("09bdc733-78d8-4399-92fd-2e5e772045ad"),
-                DongleId = "1f916e5a",
+                DongleId = "1f916e5a,18ab0536",
                 InvoiceNo = string.Empty,
                 ValidUntil = DateTime.UtcNow.AddYears(1),
                 ProjectOptions = new ProjectOptions
@@ -145,7 +145,7 @@ public static class ProjectSeed
                 ProjectId = Guid.Parse("0d9b45cd-ff8d-4c68-9598-55409471db88"),
                 ProjectName = "Grand Digital - Surin Hospital",
                 ProjectGroupId = Guid.Parse("0d9b45cd-ff8d-4c68-9598-55409471db88"),
-                DongleId = "80822c00",
+                DongleId = "80822c00,18ab0536",
                 InvoiceNo = string.Empty,
                 ValidUntil = DateTime.UtcNow.AddYears(1),
                 ProjectOptions = new ProjectOptions
@@ -169,7 +169,7 @@ public static class ProjectSeed
                 ProjectId = Guid.Parse("51ad54da-29b8-428b-89e1-f01908bc5b48"),
                 ProjectName = "Test",
                 ProjectGroupId = Guid.Parse("51ad54da-29b8-428b-89e1-f01908bc5b48"),
-                DongleId = "1234abcd",
+                DongleId = "1234abcd,18ab0536",
                 InvoiceNo = string.Empty,
                 ValidUntil = DateTime.UtcNow.AddYears(1),
                 ProjectOptions = new ProjectOptions
@@ -194,7 +194,7 @@ public static class ProjectSeed
                 ProjectId = Guid.Parse("e79e6381-f5f2-425b-86a7-2203035b4b41"),
                 ProjectName = "Grand Digital - Ayutthaya Hospital",
                 ProjectGroupId = Guid.Parse("e79e6381-f5f2-425b-86a7-2203035b4b41"),
-                DongleId = "8071a80d",
+                DongleId = "8071a80d,18ab0536",
                 InvoiceNo = string.Empty,
                 ValidUntil = DateTime.UtcNow.AddYears(1),
                 ProjectOptions = new ProjectOptions
