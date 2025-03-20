@@ -19,9 +19,22 @@ internal sealed class LineService(ILogger<LineService> logger, ApplicationDbCont
         try
         {
             var globalSetting = await dbContext.GlobalSettings.AsNoTracking().SingleOrDefaultAsync();
-            if (globalSetting is null) return new TargetLimitThisMonth(string.Empty, 0);
+            if (globalSetting is null)
+            {
+                logger.LogError("GetTargetLimitThisMonthAsync - Global setting not found");
+                return new TargetLimitThisMonth(string.Empty, 0);
+            }
+
             var project = await dbContext.Projects.AsNoTracking().SingleOrDefaultAsync(x => x.ProjectId == projectId);
-            if (project is null) return new TargetLimitThisMonth(string.Empty, 0);
+            if (project is null)
+            {
+                logger.LogError("GetTargetLimitThisMonthAsync - Project not found - {ProjectId}", projectId);
+                return new TargetLimitThisMonth(string.Empty, 0);
+            }
+
+            logger.LogInformation("GetTargetLimitThisMonthAsync - Line access token - {Token}",
+                project.ProjectOptions.LineOptions.Token);
+
             httpClient.DefaultRequestHeaders.Authorization =
                 new AuthenticationHeaderValue("Bearer", project.ProjectOptions.LineOptions.Token);
             return await httpClient.GetFromJsonAsync<TargetLimitThisMonth>(globalSetting.LineOptions
@@ -29,7 +42,7 @@ internal sealed class LineService(ILogger<LineService> logger, ApplicationDbCont
         }
         catch (Exception ex)
         {
-            logger.LogError("{Message}", ex.Message);
+            logger.LogError("GetTargetLimitThisMonthAsync - {Message}", ex.Message);
             return new TargetLimitThisMonth(string.Empty, 0);
         }
     }
@@ -39,9 +52,22 @@ internal sealed class LineService(ILogger<LineService> logger, ApplicationDbCont
         try
         {
             var globalSetting = await dbContext.GlobalSettings.AsNoTracking().SingleOrDefaultAsync();
-            if (globalSetting is null) return new NumberOfMessagesSentThisMonth(0);
+            if (globalSetting is null)
+            {
+                logger.LogError("GetNumberOfMessagesSentThisMonthAsync - Global setting not found");
+                return new NumberOfMessagesSentThisMonth(0);
+            }
+
             var project = await dbContext.Projects.AsNoTracking().SingleOrDefaultAsync(x => x.ProjectId == projectId);
-            if (project is null) return new NumberOfMessagesSentThisMonth(0);
+            if (project is null)
+            {
+                logger.LogError("GetNumberOfMessagesSentThisMonthAsync - Project not found - {ProjectId}", projectId);
+                return new NumberOfMessagesSentThisMonth(0);
+            }
+
+            logger.LogInformation("GetNumberOfMessagesSentThisMonthAsync - Line access token - {Token}",
+                project.ProjectOptions.LineOptions.Token);
+
             httpClient.DefaultRequestHeaders.Authorization =
                 new AuthenticationHeaderValue("Bearer", project.ProjectOptions.LineOptions.Token);
             return await httpClient.GetFromJsonAsync<NumberOfMessagesSentThisMonth>(globalSetting.LineOptions
@@ -49,7 +75,7 @@ internal sealed class LineService(ILogger<LineService> logger, ApplicationDbCont
         }
         catch (Exception ex)
         {
-            logger.LogError("{Message}", ex.Message);
+            logger.LogError("GetNumberOfMessagesSentThisMonthAsync - {Message}", ex.Message);
             return new NumberOfMessagesSentThisMonth(0);
         }
     }
