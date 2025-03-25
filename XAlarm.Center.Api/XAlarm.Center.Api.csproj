@@ -6,6 +6,8 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <LangVersion>default</LangVersion>
         <AssemblyName>xalarm-center</AssemblyName>
+        <AssemblyVersion>2025.9.1.1</AssemblyVersion>
+        <FileVersion>2025.9.1.1</FileVersion>
     </PropertyGroup>
 
     <ItemGroup>
@@ -54,6 +56,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="Features\Messages\" />
       <Folder Include="Features\Projects\" />
     </ItemGroup>
 
