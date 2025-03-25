@@ -1,5 +1,4 @@
 using FastEndpoints;
-using FastEndpoints.Swagger;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Hosting.WindowsServices;
 using Scalar.AspNetCore;
@@ -40,15 +39,6 @@ builder.Services.ConfigureOptions<IdentityOptionsSetup>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddFastEndpoints();
-
-builder.Services.SwaggerDocument(x =>
-{
-    x.DocumentSettings = y =>
-    {
-        y.DocumentName = appOptions.AppName;
-        y.Version = "v1";
-    };
-});
 
 builder.Services.AddCors(options =>
 {
