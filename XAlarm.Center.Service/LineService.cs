@@ -14,7 +14,7 @@ namespace XAlarm.Center.Service;
 internal sealed class LineService(ILogger<LineService> logger, ApplicationDbContext dbContext, HttpClient httpClient)
     : ILineService
 {
-    public async Task<TargetLimitThisMonth> GetTargetLimitThisMonthAsync(Guid projectId)
+    public async Task<TargetLimitThisMonth> GetTargetLimitThisMonthAsync(Guid projectId, string token)
     {
         try
         {
@@ -33,10 +33,10 @@ internal sealed class LineService(ILogger<LineService> logger, ApplicationDbCont
             }
 
             logger.LogInformation("GetTargetLimitThisMonthAsync - Line access token - {Token}",
-                project.ProjectOptions.LineOptions.Token);
+                string.IsNullOrEmpty(token) ? project.ProjectOptions.LineOptions.Token : token);
 
-            httpClient.DefaultRequestHeaders.Authorization =
-                new AuthenticationHeaderValue("Bearer", project.ProjectOptions.LineOptions.Token);
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer",
+                string.IsNullOrEmpty(token) ? project.ProjectOptions.LineOptions.Token : token);
             return await httpClient.GetFromJsonAsync<TargetLimitThisMonth>(globalSetting.LineOptions
                 .GetTargetLimitThisMonthUrl) ?? new TargetLimitThisMonth(string.Empty, 0);
         }
@@ -47,7 +47,7 @@ internal sealed class LineService(ILogger<LineService> logger, ApplicationDbCont
         }
     }
 
-    public async Task<NumberOfMessagesSentThisMonth> GetNumberOfMessagesSentThisMonthAsync(Guid projectId)
+    public async Task<NumberOfMessagesSentThisMonth> GetNumberOfMessagesSentThisMonthAsync(Guid projectId, string token)
     {
         try
         {
@@ -66,10 +66,10 @@ internal sealed class LineService(ILogger<LineService> logger, ApplicationDbCont
             }
 
             logger.LogInformation("GetNumberOfMessagesSentThisMonthAsync - Line access token - {Token}",
-                project.ProjectOptions.LineOptions.Token);
+                string.IsNullOrEmpty(token) ? project.ProjectOptions.LineOptions.Token : token);
 
-            httpClient.DefaultRequestHeaders.Authorization =
-                new AuthenticationHeaderValue("Bearer", project.ProjectOptions.LineOptions.Token);
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer",
+                string.IsNullOrEmpty(token) ? project.ProjectOptions.LineOptions.Token : token);
             return await httpClient.GetFromJsonAsync<NumberOfMessagesSentThisMonth>(globalSetting.LineOptions
                 .GetNumberOfMessagesSentThisMonthUrl) ?? new NumberOfMessagesSentThisMonth(0);
         }

@@ -10,7 +10,7 @@ public class GetTargetLimitThisMonthEndpoint(ILineService lineService)
 {
     public override void Configure()
     {
-        Get("api/lines/getTargetLimitThisMonth/{projectId}");
+        Post("api/lines/getTargetLimitThisMonth");
         Policies(RoleTypes.RealmAdministrator.GetDescription());
         Description(x => x.WithTags("LINE"));
     }
@@ -18,6 +18,7 @@ public class GetTargetLimitThisMonthEndpoint(ILineService lineService)
     public override async Task HandleAsync(GetTargetLimitThisMonthRequest request, CancellationToken cancellationToken)
     {
         await SendResultAsync(TypedResults.Ok(
-            new GetTargetLimitThisMonthResponse(await lineService.GetTargetLimitThisMonthAsync(request.ProjectId))));
+            new GetTargetLimitThisMonthResponse(
+                await lineService.GetTargetLimitThisMonthAsync(request.ProjectId, request.Token))));
     }
 }

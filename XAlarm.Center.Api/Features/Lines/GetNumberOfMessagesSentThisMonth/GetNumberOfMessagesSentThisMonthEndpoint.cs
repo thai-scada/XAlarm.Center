@@ -10,7 +10,7 @@ public class GetNumberOfMessagesSentThisMonthEndpoint(ILineService lineService)
 {
     public override void Configure()
     {
-        Get("api/lines/getNumberOfMessagesSentThisMonth/{projectId}");
+        Post("api/lines/getNumberOfMessagesSentThisMonth");
         Policies(RoleTypes.RealmAdministrator.GetDescription());
         Description(x => x.WithTags("LINE"));
     }
@@ -20,6 +20,6 @@ public class GetNumberOfMessagesSentThisMonthEndpoint(ILineService lineService)
     {
         await SendResultAsync(TypedResults.Ok(
             new GetNumberOfMessagesSentThisMonthResponse(
-                await lineService.GetNumberOfMessagesSentThisMonthAsync(request.ProjectId))));
+                await lineService.GetNumberOfMessagesSentThisMonthAsync(request.ProjectId, request.Token))));
     }
 }
