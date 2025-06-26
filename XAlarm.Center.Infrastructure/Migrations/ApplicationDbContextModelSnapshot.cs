@@ -15,7 +15,71 @@ namespace XAlarm.Center.Infrastructure.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "9.0.3");
+            modelBuilder.HasAnnotation("ProductVersion", "9.0.6");
+
+            modelBuilder.Entity("XAlarm.Center.Domain.Events.MessageEvent", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("id");
+
+                    b.Property<string>("AlarmPayload")
+                        .IsRequired()
+                        .HasColumnType("jsonb")
+                        .HasColumnName("alarm_payload");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("TEXT")
+                        .HasColumnName("created_by");
+
+                    b.Property<DateTime>("EventBeginOnUtc")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("event_begin_on_utc");
+
+                    b.Property<DateTime?>("EventEndOnUtc")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("event_end_on_utc");
+
+                    b.Property<bool>("IsSuccess")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("is_success");
+
+                    b.Property<string>("MessageBegin")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("message_begin");
+
+                    b.Property<string>("MessageEnd")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("message_end");
+
+                    b.Property<Guid>("ProjectId")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("project_id");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("type");
+
+                    b.Property<string>("TypeDescription")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("TEXT")
+                        .HasColumnName("type_description");
+
+                    b.HasKey("Id")
+                        .HasName("pk_message_events");
+
+                    b.HasIndex("ProjectId")
+                        .IsUnique()
+                        .HasDatabaseName("ix_message_events_project_id");
+
+                    b.ToTable("message_events", (string)null);
+                });
 
             modelBuilder.Entity("XAlarm.Center.Domain.Projects.Project", b =>
                 {

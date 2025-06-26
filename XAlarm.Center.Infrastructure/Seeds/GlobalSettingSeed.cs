@@ -10,7 +10,7 @@ public static class GlobalSettingSeed
 
     public static IEnumerable<GlobalSetting> GetEntities()
     {
-        var ids = File.ReadAllLines(Path.Combine(AppContext.BaseDirectory, "..", "assets", "migrations",
+        var ids = File.ReadAllLines(Path.Combine(AppContext.BaseDirectory, "..", "assets", "data",
             "global-setting-id.txt"));
 
         return
@@ -22,7 +22,8 @@ public static class GlobalSettingSeed
                 {
                     Url = "https://api.line.me/v2/bot/message/push",
                     GetTargetLimitThisMonthUrl = "https://api.line.me/v2/bot/message/quota",
-                    GetNumberOfMessagesSentThisMonthUrl = "https://api.line.me/v2/bot/message/quota/consumption"
+                    GetNumberOfMessagesSentThisMonthUrl = "https://api.line.me/v2/bot/message/quota/consumption",
+                    GetNumberOfUsersInGroupChatUrl = "https://api.line.me/v2/bot/group/{groupId}/members/count"
                 },
                 TelegramOptions = new TelegramOptions
                 {

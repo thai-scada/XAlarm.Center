@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using XAlarm.Center.Domain.Events;
 using XAlarm.Center.Domain.Projects;
 using XAlarm.Center.Domain.Settings;
 
@@ -9,6 +10,7 @@ public class ApplicationDbContext(DbContextOptions options) : DbContext(options)
 {
     public DbSet<GlobalSetting> GlobalSettings => Set<GlobalSetting>();
     public DbSet<Project> Projects => Set<Project>();
+    public DbSet<MessageEvent> MessageEvents => Set<MessageEvent>();
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

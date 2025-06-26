@@ -17,5 +17,6 @@ public enum EventTypes
     [Description("LINE sent")] LineSent = 106,
     [Description("LINE error")] LineError = 107,
     [Description("Telegram sent")] TelegramSent = 108,
-    [Description("Telegram error")] TelegramError = 109
+    [Description("Telegram error")] TelegramError = 109,
+    [Description("Quota exceeded")] QuotaExceeded = 201
 }

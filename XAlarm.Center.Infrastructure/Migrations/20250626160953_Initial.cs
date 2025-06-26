@@ -27,6 +27,27 @@ namespace XAlarm.Center.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "message_events",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    project_id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    alarm_payload = table.Column<string>(type: "jsonb", nullable: false),
+                    is_success = table.Column<bool>(type: "INTEGER", nullable: false),
+                    event_begin_on_utc = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    event_end_on_utc = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    type = table.Column<int>(type: "INTEGER", nullable: false),
+                    type_description = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false),
+                    message_begin = table.Column<string>(type: "TEXT", nullable: false),
+                    message_end = table.Column<string>(type: "TEXT", nullable: false),
+                    created_by = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_message_events", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "projects",
                 columns: table => new
                 {
@@ -45,6 +66,12 @@ namespace XAlarm.Center.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "ix_message_events_project_id",
+                table: "message_events",
+                column: "project_id",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "ix_projects_project_id",
                 table: "projects",
                 column: "project_id",
@@ -56,6 +83,9 @@ namespace XAlarm.Center.Infrastructure.Migrations
         {
             migrationBuilder.DropTable(
                 name: "global_settings");
+
+            migrationBuilder.DropTable(
+                name: "message_events");
 
             migrationBuilder.DropTable(
                 name: "projects");
