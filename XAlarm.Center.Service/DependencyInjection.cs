@@ -18,7 +18,7 @@ public static class DependencyInjection
         {
             quartz.ScheduleJob<ResetMessageQuotaJob>(trigger => trigger
                 .WithIdentity($"reset-message-quota-job")
-                .WithCronSchedule("0 0 0 1 * ? *")
+                .WithCronSchedule(appOptions.ResetMessageQuotaJobOptions.CronExpression)
                 .WithDescription("Reset message quota")
             );
         });
