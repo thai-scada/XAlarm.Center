@@ -7,6 +7,7 @@ public sealed class MessageEvent : Entity
 {
     public Guid ProjectId { get; init; }
     public AlarmPayload AlarmPayload { get; init; } = new();
+    public int NumberOfMessagesSent { get; set; }
     public bool IsSuccess { get; init; }
     public bool IsFailure => !IsSuccess;
     public DateTime EventBeginOnUtc { get; init; }

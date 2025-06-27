@@ -33,6 +33,7 @@ namespace XAlarm.Center.Infrastructure.Migrations
                     id = table.Column<Guid>(type: "TEXT", nullable: false),
                     project_id = table.Column<Guid>(type: "TEXT", nullable: false),
                     alarm_payload = table.Column<string>(type: "jsonb", nullable: false),
+                    number_of_messages_sent = table.Column<int>(type: "INTEGER", nullable: false),
                     is_success = table.Column<bool>(type: "INTEGER", nullable: false),
                     event_begin_on_utc = table.Column<DateTime>(type: "TEXT", nullable: false),
                     event_end_on_utc = table.Column<DateTime>(type: "TEXT", nullable: true),
@@ -64,12 +65,6 @@ namespace XAlarm.Center.Infrastructure.Migrations
                 {
                     table.PrimaryKey("pk_projects", x => x.id);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "ix_message_events_project_id",
-                table: "message_events",
-                column: "project_id",
-                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "ix_projects_project_id",

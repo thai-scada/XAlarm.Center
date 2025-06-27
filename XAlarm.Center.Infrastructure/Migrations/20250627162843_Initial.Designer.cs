@@ -11,7 +11,7 @@ using XAlarm.Center.Infrastructure;
 namespace XAlarm.Center.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250626160953_Initial")]
+    [Migration("20250627162843_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -60,6 +60,10 @@ namespace XAlarm.Center.Infrastructure.Migrations
                         .HasColumnType("TEXT")
                         .HasColumnName("message_end");
 
+                    b.Property<int>("NumberOfMessagesSent")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("number_of_messages_sent");
+
                     b.Property<Guid>("ProjectId")
                         .HasColumnType("TEXT")
                         .HasColumnName("project_id");
@@ -76,10 +80,6 @@ namespace XAlarm.Center.Infrastructure.Migrations
 
                     b.HasKey("Id")
                         .HasName("pk_message_events");
-
-                    b.HasIndex("ProjectId")
-                        .IsUnique()
-                        .HasDatabaseName("ix_message_events_project_id");
 
                     b.ToTable("message_events", (string)null);
                 });

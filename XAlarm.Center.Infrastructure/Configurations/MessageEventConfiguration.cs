@@ -14,6 +14,7 @@ internal sealed class MessageEventConfiguration : EntityConfiguration<MessageEve
         builder.ToTable("message_events");
 
         builder.Property(x => x.ProjectId);
+        builder.Property(x => x.NumberOfMessagesSent);
         builder.Property(x => x.IsSuccess);
         builder.Property(x => x.EventBeginOnUtc);
         builder.Property(x => x.EventEndOnUtc);
@@ -27,8 +28,6 @@ internal sealed class MessageEventConfiguration : EntityConfiguration<MessageEve
             x => JsonSerializer.Serialize(x, JsonHelper.DefaultJsonSerializerOptions),
             x => JsonSerializer.Deserialize<AlarmPayload>(x, JsonHelper.DefaultJsonSerializerOptions) ??
                  new AlarmPayload());
-
-        builder.HasIndex(x => x.ProjectId).IsUnique();
 
         builder.Ignore(x => x.IsFailure);
 

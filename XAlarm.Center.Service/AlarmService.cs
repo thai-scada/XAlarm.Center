@@ -136,7 +136,7 @@ internal sealed class AlarmService(
                         EventBeginOnUtc = DateTime.UtcNow, Type = (int)EventTypes.LineSent,
                         TypeDescription = EventTypes.LineSent.GetDescription(), MessageBegin = "LINE sent"
                     };
-                    if (lineOptions.TokenProvider == (int)TokenProviders.CommercialServer)
+                    if (project.ProjectOptions.LineOptions.TokenProvider == (int)TokenProviders.CommercialServer)
                         await SaveMessageEvent(messageEvent, project, alarmPayload);
                     return messageEvent;
             }
@@ -150,7 +150,7 @@ internal sealed class AlarmService(
                 EventBeginOnUtc = DateTime.UtcNow, Type = (int)EventTypes.LineError,
                 TypeDescription = EventTypes.LineError.GetDescription(), MessageBegin = ex.Message
             };
-            if (lineOptions.TokenProvider == (int)TokenProviders.CommercialServer)
+            if (project.ProjectOptions.LineOptions.TokenProvider == (int)TokenProviders.CommercialServer)
                 await SaveMessageEvent(messageEvent);
             return messageEvent;
         }
@@ -215,14 +215,13 @@ internal sealed class AlarmService(
     private async Task SaveMessageEvent(MessageEvent messageEvent, Project? project = null,
         AlarmPayload? alarmPayload = null)
     {
-        await dbContext.MessageEvents.AddAsync(messageEvent);
-        await dbContext.SaveChangesAsync();
-
         if (project is not null && alarmPayload is not null)
         {
-            var numberOfUsersInGroupChat = await lineService.GetNumberOfUsersInGroupChat(project.Id,
-                alarmPayload.ChatId,
-                project.ProjectOptions.LineOptions.Token);
+            var numberOfUsersInGroupChat = await lineService.GetNumberOfUsersInGroupChat(project.ProjectId,
+                alarmPayload.ChatId, project.ProjectOptions.LineOptions.Token);
+            messageEvent.NumberOfMessagesSent = numberOfUsersInGroupChat.Count;
+            await dbContext.MessageEvents.AddAsync(messageEvent);
+            await dbContext.SaveChangesAsync();
             if (numberOfUsersInGroupChat.Count > 0)
             {
                 project.ProjectOptions.LineOptions.NumberOfMessagesSentThisMonth += numberOfUsersInGroupChat.Count;
@@ -230,15 +229,20 @@ internal sealed class AlarmService(
                     .ExecuteUpdateAsync(x => x.SetProperty(y => y.ProjectOptions, project.ProjectOptions));
             }
         }
+        else
+        {
+            await dbContext.MessageEvents.AddAsync(messageEvent);
+            await dbContext.SaveChangesAsync();
+        }
     }
 
     private async Task<bool> IsQuotaExceeded(Project project, AlarmPayload alarmPayload)
     {
         if (project.ProjectOptions.LineOptions.TokenProvider != (int)TokenProviders.CommercialServer) return false;
-        var numberOfUsersInGroupChat = await lineService.GetNumberOfUsersInGroupChat(project.Id, alarmPayload.ChatId,
-            project.ProjectOptions.LineOptions.Token);
+        var numberOfUsersInGroupChat = await lineService.GetNumberOfUsersInGroupChat(project.ProjectId,
+            alarmPayload.ChatId, project.ProjectOptions.LineOptions.Token);
         if (numberOfUsersInGroupChat.Count == 0) return false;
-        return project.ProjectOptions.LineOptions.TargetLimitThisMonth >
-               project.ProjectOptions.LineOptions.NumberOfMessagesSentThisMonth + numberOfUsersInGroupChat.Count;
+        return project.ProjectOptions.LineOptions.NumberOfMessagesSentThisMonth + numberOfUsersInGroupChat.Count >
+               project.ProjectOptions.LineOptions.TargetLimitThisMonth;
     }
 }
