@@ -47,6 +47,9 @@
       "Url": "https://api.telegram.org",
       "Token": "7766637393:AAG2ieRvIqIC9g6pNiLWxCPWVKY_M_rG5_0",
       "ChatId": "-1002354459455"
+    },
+    "ResetMessageQuotaJobOptions": {
+      "CronExpression": "0 0 0 1 * ? *"
     }
   }
 }

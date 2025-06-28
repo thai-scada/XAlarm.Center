@@ -6,4 +6,5 @@ public interface ILineService
 {
     Task<TargetLimitThisMonth> GetTargetLimitThisMonthAsync(Guid projectId, string token);
     Task<NumberOfMessagesSentThisMonth> GetNumberOfMessagesSentThisMonthAsync(Guid projectId, string token);
+    Task<NumberOfUsersInGroupChat> GetNumberOfUsersInGroupChat(Guid projectId, string groupId, string token);
 }
