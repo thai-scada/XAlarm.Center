@@ -12,15 +12,19 @@ public static class ProjectSeed
     public static IEnumerable<Project> GetEntities()
     {
         var ids = File.ReadAllLines(Path.Combine(AppContext.BaseDirectory, "..", "assets", "data", "project-id.txt"));
+        var groupIds =
+            File.ReadAllLines(Path.Combine(AppContext.BaseDirectory, "..", "assets", "data", "project-group-id.txt"));
+        var names = File.ReadAllLines(
+            Path.Combine(AppContext.BaseDirectory, "..", "assets", "data", "project-name.txt"));
 
         return
         [
             new Project
             {
                 Id = Guid.Parse(ids[0]),
-                ProjectId = Guid.Parse("df7bef34-adff-427f-bd35-4880932b9e95"),
-                ProjectName = "xWeb - xView",
-                ProjectGroupId = Guid.Parse("df7bef34-adff-427f-bd35-4880932b9e95"),
+                ProjectId = Guid.Parse(groupIds[0]),
+                ProjectName = names[0],
+                ProjectGroupId = Guid.Parse(groupIds[0]),
                 DongleId = string.Empty,
                 InvoiceNo = string.Empty,
                 ValidUntil = DateTime.UtcNow.AddYears(1),
@@ -44,9 +48,9 @@ public static class ProjectSeed
             new Project
             {
                 Id = Guid.Parse(ids[1]),
-                ProjectId = Guid.Parse("f4f47526-fe67-4c3f-a36b-68668f009e72"),
-                ProjectName = "xWeb - TEDA",
-                ProjectGroupId = Guid.Parse("f4f47526-fe67-4c3f-a36b-68668f009e72"),
+                ProjectId = Guid.Parse(groupIds[1]),
+                ProjectName = names[1],
+                ProjectGroupId = Guid.Parse(groupIds[1]),
                 DongleId = string.Empty,
                 InvoiceNo = string.Empty,
                 ValidUntil = DateTime.UtcNow.AddYears(1),
@@ -70,9 +74,9 @@ public static class ProjectSeed
             new Project
             {
                 Id = Guid.Parse(ids[2]),
-                ProjectId = Guid.Parse("e154ce10-6eab-47bd-b96f-bf058633674b"),
-                ProjectName = "Aroon Roong Hitechnology - Hon Chuan",
-                ProjectGroupId = Guid.Parse("e154ce10-6eab-47bd-b96f-bf058633674b"),
+                ProjectId = Guid.Parse(groupIds[2]),
+                ProjectName = names[2],
+                ProjectGroupId = Guid.Parse(groupIds[2]),
                 DongleId = "8090ac0e,18ab0536",
                 InvoiceNo = string.Empty,
                 ValidUntil = DateTime.UtcNow.AddYears(1),
@@ -96,9 +100,9 @@ public static class ProjectSeed
             new Project
             {
                 Id = Guid.Parse(ids[3]),
-                ProjectId = Guid.Parse("d9635148-f283-4378-9649-dfec9989e83c"),
-                ProjectName = "Aroon Roong Hitechnology - Faculty of Medicine, Khon Kaen University",
-                ProjectGroupId = Guid.Parse("d9635148-f283-4378-9649-dfec9989e83c"),
+                ProjectId = Guid.Parse(groupIds[3]),
+                ProjectName = names[3],
+                ProjectGroupId = Guid.Parse(groupIds[3]),
                 DongleId = "8090ac03,18ab0536",
                 InvoiceNo = string.Empty,
                 ValidUntil = DateTime.UtcNow.AddYears(1),
@@ -122,9 +126,9 @@ public static class ProjectSeed
             new Project
             {
                 Id = Guid.Parse(ids[4]),
-                ProjectId = Guid.Parse("09bdc733-78d8-4399-92fd-2e5e772045ad"),
-                ProjectName = "Flowmeters Thai - Sirat Expressway",
-                ProjectGroupId = Guid.Parse("09bdc733-78d8-4399-92fd-2e5e772045ad"),
+                ProjectId = Guid.Parse(groupIds[4]),
+                ProjectName = names[4],
+                ProjectGroupId = Guid.Parse(groupIds[4]),
                 DongleId = "1f916e5a,18ab0536",
                 InvoiceNo = string.Empty,
                 ValidUntil = DateTime.UtcNow.AddYears(1),
@@ -147,9 +151,9 @@ public static class ProjectSeed
             new Project
             {
                 Id = Guid.Parse(ids[5]),
-                ProjectId = Guid.Parse("0d9b45cd-ff8d-4c68-9598-55409471db88"),
-                ProjectName = "Grand Digital - Surin Hospital",
-                ProjectGroupId = Guid.Parse("0d9b45cd-ff8d-4c68-9598-55409471db88"),
+                ProjectId = Guid.Parse(groupIds[5]),
+                ProjectName = names[5],
+                ProjectGroupId = Guid.Parse(groupIds[5]),
                 DongleId = "80822c00,18ab0536",
                 InvoiceNo = string.Empty,
                 ValidUntil = DateTime.UtcNow.AddYears(1),
@@ -172,9 +176,9 @@ public static class ProjectSeed
             new Project
             {
                 Id = Guid.Parse(ids[6]),
-                ProjectId = Guid.Parse("51ad54da-29b8-428b-89e1-f01908bc5b48"),
-                ProjectName = "Test",
-                ProjectGroupId = Guid.Parse("51ad54da-29b8-428b-89e1-f01908bc5b48"),
+                ProjectId = Guid.Parse(groupIds[6]),
+                ProjectName = names[6],
+                ProjectGroupId = Guid.Parse(groupIds[6]),
                 DongleId = "1234abcd,18ab0536",
                 InvoiceNo = string.Empty,
                 ValidUntil = DateTime.UtcNow.AddYears(1),
@@ -200,9 +204,9 @@ public static class ProjectSeed
             new Project
             {
                 Id = Guid.Parse(ids[7]),
-                ProjectId = Guid.Parse("e79e6381-f5f2-425b-86a7-2203035b4b41"),
-                ProjectName = "Grand Digital - Ayutthaya Hospital",
-                ProjectGroupId = Guid.Parse("e79e6381-f5f2-425b-86a7-2203035b4b41"),
+                ProjectId = Guid.Parse(groupIds[7]),
+                ProjectName = names[7],
+                ProjectGroupId = Guid.Parse(groupIds[7]),
                 DongleId = "8071a80d,18ab0536",
                 InvoiceNo = string.Empty,
                 ValidUntil = DateTime.UtcNow.AddYears(1),
@@ -226,9 +230,9 @@ public static class ProjectSeed
             new Project
             {
                 Id = Guid.Parse(ids[8]),
-                ProjectId = Guid.Parse("356a9988-e698-46f2-87ee-bf52bf2498ce"),
-                ProjectName = "xWeb - IoT",
-                ProjectGroupId = Guid.Parse("356a9988-e698-46f2-87ee-bf52bf2498ce"),
+                ProjectId = Guid.Parse(groupIds[8]),
+                ProjectName = names[8],
+                ProjectGroupId = Guid.Parse(groupIds[8]),
                 DongleId = string.Empty,
                 InvoiceNo = string.Empty,
                 ValidUntil = DateTime.UtcNow.AddYears(1),
@@ -248,6 +252,34 @@ public static class ProjectSeed
                     {
                         Enabled = true,
                         Token = string.Empty
+                    }
+                }
+            },
+            new Project
+            {
+                Id = Guid.Parse(ids[9]),
+                ProjectId = Guid.Parse(groupIds[9]),
+                ProjectName = names[9],
+                ProjectGroupId = Guid.Parse(groupIds[9]),
+                DongleId = string.Empty,
+                InvoiceNo = string.Empty,
+                ValidUntil = DateTime.UtcNow.AddYears(1),
+                ProjectOptions = new ProjectOptions
+                {
+                    EmailOptions = new EmailOptions(),
+                    LineOptions = new LineOptions
+                    {
+                        Enabled = true,
+                        TokenProvider = (int)TokenProviders.NonCommercialServer,
+                        NumberOfMessagesSentThisMonth = 0,
+                        TargetLimitThisMonth = 0,
+                        Token =
+                            "XsHQB267fv3aQvspwnL+3iFIMkF+JT7uJZ0RFYgq283p0t0bZbUoWsh66/aT++B8f7QcVdIrL4txhNOEGKKSvUfyZxZF3ye+suCemNtdZfPTf5RDU/1PdmGociriE1Q2BPJXAAyqZlErIDlF9TAR9QdB04t89/1O/w1cDnyilFU="
+                    },
+                    TelegramOptions = new TelegramOptions
+                    {
+                        Enabled = true,
+                        Token = "8195040424:AAH4yq8EB4yY09ffeTKWh4JFkWq_5dl85HM",
                     }
                 }
             }

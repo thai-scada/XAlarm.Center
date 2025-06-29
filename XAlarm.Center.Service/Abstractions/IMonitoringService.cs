@@ -5,5 +5,5 @@ namespace XAlarm.Center.Service.Abstractions;
 
 public interface IMonitoringService
 {
-    Task<Result<string>> GetServiceStatusAsync(ServiceInfo serviceInfo);
+    Task<HttpResponseMessage> GetServiceStatusAsync(ServiceInfo serviceInfo);
 }

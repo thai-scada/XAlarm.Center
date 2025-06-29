@@ -1,9 +1,11 @@
+using System.ComponentModel;
+
 namespace XAlarm.Center.Domain.Messages;
 
 public enum AlarmChannels
 {
-    Line = 0,
-    Telegram = 1,
-    Email = 2,
-    Sms = 3
+    [Description("line")] Line = 0,
+    [Description("telegram")] Telegram = 1,
+    [Description("email")] Email = 2,
+    [Description("sms")] Sms = 3
 }
