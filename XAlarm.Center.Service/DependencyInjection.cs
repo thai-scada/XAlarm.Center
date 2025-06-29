@@ -12,16 +12,31 @@ public static class DependencyInjection
     {
         services.AddHttpClient<IAlarmService, AlarmService>();
         services.AddHttpClient<ILineService, LineService>();
+        services.AddHttpClient<IMonitoringService, MonitoringService>();
 
         services.AddTransient<ResetMessageQuotaJob>();
-        services.AddQuartz(quartz =>
-        {
-            quartz.ScheduleJob<ResetMessageQuotaJob>(trigger => trigger
-                .WithIdentity($"reset-message-quota-job")
-                .WithCronSchedule(appOptions.ResetMessageQuotaJobOptions.CronExpression)
-                .WithDescription("Reset message quota")
-            );
-        });
+        services.AddTransient<ServiceMonitoringJob>();
+
+        if (appOptions.ResetMessageQuotaJobOptions.Enable)
+            services.AddQuartz(quartz =>
+            {
+                quartz.ScheduleJob<ResetMessageQuotaJob>(trigger => trigger
+                    .WithIdentity("reset-message-quota-job")
+                    .WithCronSchedule(appOptions.ResetMessageQuotaJobOptions.CronExpression)
+                    .WithDescription("Reset message quota")
+                );
+            });
+
+        if (appOptions.ServiceMonitoringJobOptions.Enable)
+            services.AddQuartz(quartz =>
+            {
+                quartz.ScheduleJob<ServiceMonitoringJob>(trigger => trigger
+                    .WithIdentity("service-monitoring-job")
+                    .WithCronSchedule(appOptions.ServiceMonitoringJobOptions.CronExpression)
+                    .WithDescription("Service monitoring job")
+                );
+            });
+
         services.AddQuartzHostedService(options => { options.WaitForJobsToComplete = true; });
 
         return services;

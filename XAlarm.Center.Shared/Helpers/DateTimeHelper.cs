@@ -462,4 +462,9 @@ public static class DateTimeHelper
         return new DateTime(dtNow.Year, dtNow.Month, dtNow.Day, dtNow.Hour, dtNow.Minute, dtNow.Second,
             dtNow.Millisecond);
     }
+
+    public static DateTime ConvertByTimeZone(DateTime dateTime, string timeZoneId)
+    {
+        return TimeZoneInfo.ConvertTimeFromUtc(dateTime, TimeZoneInfo.FindSystemTimeZoneById(timeZoneId));
+    }
 }

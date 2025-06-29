@@ -124,6 +124,9 @@ internal sealed class AlarmService(
                             : alarmPayload.Token);
                     httpClient.DefaultRequestHeaders.Add("X-Line-Retry-Key", Guid.NewGuid().ToString());
 
+                    var payload =
+                        JsonSerializer.Serialize(pushMessagePayload, JsonHelper.IgnoreNullJsonSerializerOptions);
+
                     var response = await httpClient.PostAsJsonAsync(lineOptions.Url, pushMessagePayload,
                         JsonHelper.IgnoreNullJsonSerializerOptions);
 

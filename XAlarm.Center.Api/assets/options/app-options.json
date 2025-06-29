@@ -49,7 +49,23 @@
       "ChatId": "-1002354459455"
     },
     "ResetMessageQuotaJobOptions": {
+      "Enable": true,
       "CronExpression": "0 0 0 1 * ? *"
+    },
+    "ServiceMonitoringJobOptions": {
+      "Enable": true,
+      "CronExpression": "0 0/5 * * * ?",
+      "ServiceInfos": [
+        {
+          "Name": "KeyCloak",
+          "Title": "Identity Server Unavailable",
+          "DomainName": "https://auth.iotserver.in.th",
+          "EnableNotify": true,
+          "ProjectId": "9bf03cb4-e793-419a-a77a-1a2b298cd629",
+          "Token": "",
+          "ChatId": "C905d95212ce448621177663c946d0937"
+        }
+      ]
     }
   }
 }
