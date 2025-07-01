@@ -124,9 +124,9 @@ internal sealed class LineService(ILogger<LineService> logger, ApplicationDbCont
 
     public async Task<string> GetQuotaMessageThisMonthAsync(Guid projectId, string groupId, string token, int mode = 0)
     {
-        var targetLimitThisMonth = await GetTargetLimitThisMonthAsync(projectId, string.Empty);
-        var numberOfMessagesSentThisMonth = await GetNumberOfMessagesSentThisMonthAsync(projectId, string.Empty);
-        var numberOfUsersInGroupChat = await GetNumberOfUsersInGroupChat(projectId, groupId, string.Empty);
+        var targetLimitThisMonth = await GetTargetLimitThisMonthAsync(projectId, token);
+        var numberOfMessagesSentThisMonth = await GetNumberOfMessagesSentThisMonthAsync(projectId, token);
+        var numberOfUsersInGroupChat = await GetNumberOfUsersInGroupChat(projectId, groupId, token);
         return mode == 0
             ? $"{numberOfMessagesSentThisMonth.TotalUsage}/{targetLimitThisMonth.Value} ({Convert.ToInt32(numberOfMessagesSentThisMonth.TotalUsage * 100 / targetLimitThisMonth.Value)}%)"
             : $"{numberOfMessagesSentThisMonth.TotalUsage + numberOfUsersInGroupChat.Count}/{targetLimitThisMonth.Value} ({Convert.ToInt32((numberOfMessagesSentThisMonth.TotalUsage + numberOfUsersInGroupChat.Count) * 100 / targetLimitThisMonth.Value)}%)";
