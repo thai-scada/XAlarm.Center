@@ -32,13 +32,13 @@ Authorization: Bearer XsHQB267fv3aQvspwnL+3iFIMkF+JT7uJZ0RFYgq283p0t0bZbUoWsh66/
 
 GET https://api.line.me/v2/bot/message/quota
 Content-Type: application/json
-Authorization: Bearer XsHQB267fv3aQvspwnL+3iFIMkF+JT7uJZ0RFYgq283p0t0bZbUoWsh66/aT++B8f7QcVdIrL4txhNOEGKKSvUfyZxZF3ye+suCemNtdZfPTf5RDU/1PdmGociriE1Q2BPJXAAyqZlErIDlF9TAR9QdB04t89/1O/w1cDnyilFU=
+Authorization: Bearer nMuD12+ydfyebgAzsZlUWVbKjq3QW47NNkdtCNNUdgux0PnrhJ+X0xSAV3dOd7Fjt6Xg8vtyyfYZ1KTsLYmMTY/uHK3ipRzmOi03zMuqrkOVoZCSp4GTELPXeMHgg+b3nVuzqXaXl1LpYM2BjpvwCQdB04t89/1O/w1cDnyilFU=
 
 ###
 
 GET https://api.line.me/v2/bot/message/quota/consumption
 Content-Type: application/json
-Authorization: Bearer XsHQB267fv3aQvspwnL+3iFIMkF+JT7uJZ0RFYgq283p0t0bZbUoWsh66/aT++B8f7QcVdIrL4txhNOEGKKSvUfyZxZF3ye+suCemNtdZfPTf5RDU/1PdmGociriE1Q2BPJXAAyqZlErIDlF9TAR9QdB04t89/1O/w1cDnyilFU=
+Authorization: Bearer nMuD12+ydfyebgAzsZlUWVbKjq3QW47NNkdtCNNUdgux0PnrhJ+X0xSAV3dOd7Fjt6Xg8vtyyfYZ1KTsLYmMTY/uHK3ipRzmOi03zMuqrkOVoZCSp4GTELPXeMHgg+b3nVuzqXaXl1LpYM2BjpvwCQdB04t89/1O/w1cDnyilFU=
 
 ###
 

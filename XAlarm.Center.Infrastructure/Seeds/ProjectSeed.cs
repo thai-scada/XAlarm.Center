@@ -53,16 +53,18 @@ public static class ProjectSeed
                 ProjectGroupId = Guid.Parse(groupIds[1]),
                 DongleId = string.Empty,
                 InvoiceNo = string.Empty,
-                ValidUntil = DateTime.UtcNow.AddYears(1),
+                ValidUntil = new DateTime(2026, 07, 06),
                 ProjectOptions = new ProjectOptions
                 {
                     EmailOptions = new EmailOptions(),
                     LineOptions = new LineOptions
                     {
                         Enabled = true,
-                        TokenProvider = (int)TokenProviders.Client,
+                        TokenProvider = (int)TokenProviders.CommercialServer,
+                        NumberOfMessagesSentThisMonth = 0,
+                        TargetLimitThisMonth = 7500,
                         Token =
-                            "bwZMJS7dZYqLwfvzgOO9+02R41LAc4BMoB/yqsbvEtCJlsiuKWeAGYKdwhaZvzFnMLHZUw7ZHL+63HjzyxiFftjsC+0zniLR6CbH+V/mr3rVn2XHf/M9krKYZxvmV58nvIDcPCB8idfEHbmNVMR25QdB04t89/1O/w1cDnyilFU="
+                            "nMuD12+ydfyebgAzsZlUWVbKjq3QW47NNkdtCNNUdgux0PnrhJ+X0xSAV3dOd7Fjt6Xg8vtyyfYZ1KTsLYmMTY/uHK3ipRzmOi03zMuqrkOVoZCSp4GTELPXeMHgg+b3nVuzqXaXl1LpYM2BjpvwCQdB04t89/1O/w1cDnyilFU="
                     },
                     TelegramOptions = new TelegramOptions
                     {
