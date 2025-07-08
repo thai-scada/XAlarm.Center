@@ -66,6 +66,13 @@
           "ChatId": "C905d95212ce448621177663c946d0937"
         }
       ]
+    },
+    "DailyMessageQuotaNotifyJobOptions": {
+      "Enable": true,
+      "CronExpression": "0 0 0 * * ?",
+      "ProjectId": "9bf03cb4-e793-419a-a77a-1a2b298cd629",
+      "Token": "",
+      "ChatId": "C905d95212ce448621177663c946d0937"
     }
   }
 }

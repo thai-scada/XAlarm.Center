@@ -42,6 +42,12 @@ Authorization: Bearer nMuD12+ydfyebgAzsZlUWVbKjq3QW47NNkdtCNNUdgux0PnrhJ+X0xSAV3
 
 ###
 
+GET https://api.line.me/v2/bot/info
+Content-Type: application/json
+Authorization: Bearer nMuD12+ydfyebgAzsZlUWVbKjq3QW47NNkdtCNNUdgux0PnrhJ+X0xSAV3dOd7Fjt6Xg8vtyyfYZ1KTsLYmMTY/uHK3ipRzmOi03zMuqrkOVoZCSp4GTELPXeMHgg+b3nVuzqXaXl1LpYM2BjpvwCQdB04t89/1O/w1cDnyilFU=
+
+###
+
 GET https://prototype.scada.in.th
 Content-Type: application/json
 

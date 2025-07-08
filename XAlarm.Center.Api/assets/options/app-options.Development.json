@@ -49,11 +49,11 @@
       "ChatId": "-1002354459455"
     },
     "ResetMessageQuotaJobOptions": {
-      "Enable": true,
+      "Enable": false,
       "CronExpression": "0 0 0 1 * ? *"
     },
     "ServiceMonitoringJobOptions": {
-      "Enable": true,
+      "Enable": false,
       "CronExpression": "0 0/5 * * * ?",
       "ServiceInfos": [
         {
@@ -66,6 +66,13 @@
           "ChatId": ""
         }
       ]
+    },
+    "DailyMessageQuotaNotifyJobOptions": {
+      "Enable": true,
+      "CronExpression": "0 0/2 * * * ?",
+      "ProjectId": "9bf03cb4-e793-419a-a77a-1a2b298cd629",
+      "Token": "",
+      "ChatId": "C7508cb82e02b1c9f858d816ce97e5f31"
     }
   }
 }

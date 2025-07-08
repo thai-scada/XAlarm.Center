@@ -3,6 +3,7 @@ using System.Net.Http.Json;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using XAlarm.Center.Domain.Messages;
+using XAlarm.Center.Domain.Messages.Lines;
 using XAlarm.Center.Domain.Options;
 using XAlarm.Center.Infrastructure;
 using XAlarm.Center.Service.Abstractions;
@@ -126,9 +127,25 @@ internal sealed class LineService(ILogger<LineService> logger, ApplicationDbCont
     {
         var targetLimitThisMonth = await GetTargetLimitThisMonthAsync(projectId, token);
         var numberOfMessagesSentThisMonth = await GetNumberOfMessagesSentThisMonthAsync(projectId, token);
-        var numberOfUsersInGroupChat = await GetNumberOfUsersInGroupChat(projectId, groupId, token);
+        var numberOfUsersInGroupChat = mode == 1
+            ? await GetNumberOfUsersInGroupChat(projectId, groupId, token)
+            : new NumberOfUsersInGroupChat(0);
         return mode == 0
             ? $"{numberOfMessagesSentThisMonth.TotalUsage}/{targetLimitThisMonth.Value} ({Convert.ToInt32(numberOfMessagesSentThisMonth.TotalUsage * 100 / targetLimitThisMonth.Value)}%)"
             : $"{numberOfMessagesSentThisMonth.TotalUsage + numberOfUsersInGroupChat.Count}/{targetLimitThisMonth.Value} ({Convert.ToInt32((numberOfMessagesSentThisMonth.TotalUsage + numberOfUsersInGroupChat.Count) * 100 / targetLimitThisMonth.Value)}%)";
+    }
+
+    public async Task<BotInfo> GetBotInfoAsync(string token)
+    {
+        try
+        {
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            return await httpClient.GetFromJsonAsync<BotInfo>("https://api.line.me/v2/bot/info") ?? new BotInfo();
+        }
+        catch (Exception ex)
+        {
+            logger.LogError("GetBotInfoAsync - {Message}", ex.Message);
+            return new BotInfo();
+        }
     }
 }
