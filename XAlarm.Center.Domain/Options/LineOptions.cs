@@ -9,7 +9,7 @@ public sealed class LineOptions : AlarmOptions
     public string GetNumberOfUsersInGroupChatUrl { get; init; } = string.Empty;
     public int TargetLimitThisMonth { get; init; }
     public int NumberOfMessagesSentThisMonth { get; set; }
-    public DateTime UpdatedAtUtc { get; set; } = DateTime.UtcNow;
+    public DateTime UpdatedAtUtc { get; init; } = DateTime.UtcNow;
 }
 
 public sealed record TargetLimitThisMonth(string Type, int Value);

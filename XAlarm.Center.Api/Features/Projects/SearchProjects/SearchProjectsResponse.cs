@@ -1,5 +1,5 @@
-using XAlarm.Center.Contract.Projects;
+using XAlarm.Center.Domain.Projects;
 
 namespace XAlarm.Center.Api.Features.Projects.SearchProjects;
 
-public record SearchProjectsResponse(IReadOnlyList<ProjectDto> Projects);
+public record SearchProjectsResponse(IReadOnlyList<Project> Projects);

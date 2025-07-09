@@ -37,6 +37,16 @@ public static class DependencyInjection
                 );
             });
 
+        if (appOptions.DailyMessageQuotaNotifyJobOptions.Enable)
+            services.AddQuartz(quartz =>
+            {
+                quartz.ScheduleJob<DailyMessageQuotaNotifyJob>(trigger => trigger
+                    .WithIdentity("daily-message-quota-notify-job")
+                    .WithCronSchedule(appOptions.DailyMessageQuotaNotifyJobOptions.CronExpression)
+                    .WithDescription("Daily message quota notify job")
+                );
+            });
+
         services.AddQuartzHostedService(options => { options.WaitForJobsToComplete = true; });
 
         return services;

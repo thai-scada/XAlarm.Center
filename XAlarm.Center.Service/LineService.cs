@@ -3,6 +3,7 @@ using System.Net.Http.Json;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using XAlarm.Center.Domain.Messages;
+using XAlarm.Center.Domain.Messages.Lines;
 using XAlarm.Center.Domain.Options;
 using XAlarm.Center.Infrastructure;
 using XAlarm.Center.Service.Abstractions;
@@ -12,7 +13,10 @@ using XAlarm.Center.Service.Abstractions;
 
 namespace XAlarm.Center.Service;
 
-internal sealed class LineService(ILogger<LineService> logger, ApplicationDbContext dbContext, HttpClient httpClient)
+internal sealed class LineService(
+    ILogger<LineService> logger,
+    ApplicationDbContext dbContext,
+    HttpClient httpClient)
     : ILineService
 {
     public async Task<TargetLimitThisMonth> GetTargetLimitThisMonthAsync(Guid projectId, string token)
@@ -126,9 +130,36 @@ internal sealed class LineService(ILogger<LineService> logger, ApplicationDbCont
     {
         var targetLimitThisMonth = await GetTargetLimitThisMonthAsync(projectId, token);
         var numberOfMessagesSentThisMonth = await GetNumberOfMessagesSentThisMonthAsync(projectId, token);
-        var numberOfUsersInGroupChat = await GetNumberOfUsersInGroupChat(projectId, groupId, token);
+        var numberOfUsersInGroupChat = mode == 1
+            ? await GetNumberOfUsersInGroupChat(projectId, groupId, token)
+            : new NumberOfUsersInGroupChat(0);
         return mode == 0
-            ? $"{numberOfMessagesSentThisMonth.TotalUsage}/{targetLimitThisMonth.Value} ({Convert.ToInt32(numberOfMessagesSentThisMonth.TotalUsage * 100 / targetLimitThisMonth.Value)}%)"
-            : $"{numberOfMessagesSentThisMonth.TotalUsage + numberOfUsersInGroupChat.Count}/{targetLimitThisMonth.Value} ({Convert.ToInt32((numberOfMessagesSentThisMonth.TotalUsage + numberOfUsersInGroupChat.Count) * 100 / targetLimitThisMonth.Value)}%)";
+            ? $"{numberOfMessagesSentThisMonth.TotalUsage:N0} / {targetLimitThisMonth.Value:N0} ({Convert.ToInt32(numberOfMessagesSentThisMonth.TotalUsage * 100 / targetLimitThisMonth.Value)}%)"
+            : $"{numberOfMessagesSentThisMonth.TotalUsage + numberOfUsersInGroupChat.Count:N0} / {targetLimitThisMonth.Value} ({Convert.ToInt32((numberOfMessagesSentThisMonth.TotalUsage + numberOfUsersInGroupChat.Count) * 100 / targetLimitThisMonth.Value)}%)";
+    }
+
+    public async Task<BotInfo> GetBotInfoAsync(string token)
+    {
+        try
+        {
+            var globalSetting = await dbContext.GlobalSettings.AsNoTracking().SingleOrDefaultAsync();
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            var botInfo = await httpClient.GetFromJsonAsync<BotInfo>("https://api.line.me/v2/bot/info") ??
+                          new BotInfo();
+            var targetLimitThisMonth =
+                await httpClient.GetFromJsonAsync<TargetLimitThisMonth>(globalSetting?.LineOptions
+                    .GetTargetLimitThisMonthUrl) ?? new TargetLimitThisMonth(string.Empty, 0);
+            var numberOfMessagesSentThisMonth =
+                await httpClient.GetFromJsonAsync<NumberOfMessagesSentThisMonth>(globalSetting?.LineOptions
+                    .GetNumberOfMessagesSentThisMonthUrl) ?? new NumberOfMessagesSentThisMonth(0);
+            botInfo.Quota =
+                $"{numberOfMessagesSentThisMonth.TotalUsage:N0} / {targetLimitThisMonth.Value:N0} ({Convert.ToInt32(numberOfMessagesSentThisMonth.TotalUsage * 100 / targetLimitThisMonth.Value)}%)";
+            return botInfo;
+        }
+        catch (Exception ex)
+        {
+            logger.LogError("GetBotInfoAsync - {Message}", ex.Message);
+            return new BotInfo();
+        }
     }
 }
