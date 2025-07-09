@@ -31,8 +31,12 @@ public sealed class Content
     public string? OffsetBottom { get; set; }
     public string? OffsetStart { get; set; }
     public string? OffsetEnd { get; set; }
+    public string? PaddingTop { get; set; }
+    public string? PaddingBottom { get; set; }
+    public string? PaddingStart { get; set; }
+    public string? PaddingEnd { get; set; }
     public Action? Action { get; init; }
-    public Content[]? Contents { get; init; }
+    public Content[]? Contents { get; set; }
 }
 
 public sealed class Action

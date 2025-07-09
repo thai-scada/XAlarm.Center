@@ -36,23 +36,43 @@ public class DailyMessageQuotaNotifyJob(
             .GroupBy(x => x.ProjectOptions.LineOptions.Token).ToList();
         if (projectsByTokens is not [])
         {
+            var message =
+                """{"altText":"Message Quota Report","contents":{"type":"bubble","body":{"type":"box","layout":"vertical","contents":[{"type":"box","layout":"vertical","contents":[],"paddingTop":"10px"},{"type":"text","flex":5,"text":"{{timestamp}}","wrap":true,"color":"#666666","size":"sm","align":"end"},{"type":"text","text":"{{quota}}","color":"#0000ff","size":"xxs","align":"end"}]}},"type":"flex"}""";
+            var quota = await lineService.GetQuotaMessageThisMonthAsync(
+                _appOptions.DailyMessageQuotaNotifyJobOptions.ProjectId,
+                _appOptions.DailyMessageQuotaNotifyJobOptions.ChatId, string.Empty, 1);
+            message = DecodeMessage(message, quota);
+            var flexMessage =
+                JsonSerializer.Deserialize<FlexMessage>(message, JsonHelper.DefaultJsonSerializerOptions);
+            if (flexMessage is null) return;
+            var i = 0;
             foreach (var projectsByToken in projectsByTokens)
             {
                 var botInfo = await lineService.GetBotInfoAsync(projectsByToken.Key);
-                var message =
-                    """{"altText":"Message Quota","contents":{"type":"bubble","body":{"type":"box","layout":"vertical","contents":[{"type":"text","text":"{{botName}}","color":"#ff0000","weight":"bold","size":"lg"},{"type":"box","layout":"vertical","margin":"lg","spacing":"sm","contents":[{"type":"box","layout":"baseline","spacing":"sm","contents":[{"type":"text","flex":1,"text":"Time","color":"#757575","size":"sm"},{"type":"text","flex":5,"text":"{{timestamp}}","wrap":true,"color":"#666666","size":"sm"}]}]},{"type":"text","text":"{{quota}}","color":"#0000ff","size":"xxs","align":"end","offsetTop":"5px"}]}},"type":"flex"}""";
-                var quota = await lineService.GetQuotaMessageThisMonthAsync(
-                    _appOptions.DailyMessageQuotaNotifyJobOptions.ProjectId,
-                    _appOptions.DailyMessageQuotaNotifyJobOptions.ChatId,
-                    string.Empty, 1);
-                message = DecodeMessage(message, botInfo, quota);
-                var flexMessage =
-                    JsonSerializer.Deserialize<FlexMessage>(message, JsonHelper.DefaultJsonSerializerOptions);
-                if (flexMessage is null) continue;
-                var i = 1;
+                var contentBlank = new Content
+                {
+                    Type = "box",
+                    Layout = "vertical",
+                    Contents = [],
+                    PaddingTop = i == 0 ? null : "10px"
+                };
+                var contentBotName = new Content
+                {
+                    Type = "text",
+                    Text = botInfo.DisplayName,
+                    Color = "#ff0000",
+                    Weight = "bold",
+                    Size = "lg"
+                };
+                var contentBotQuota = new Content
+                {
+                    Type = "text",
+                    Text = botInfo.Quota
+                };
+                var contentProjects = new List<Content>();
                 foreach (var project in projectsByToken)
                 {
-                    var content = new Content
+                    contentProjects.Add(new Content
                     {
                         Type = "box",
                         Layout = "baseline",
@@ -62,8 +82,9 @@ public class DailyMessageQuotaNotifyJob(
                             new Content
                             {
                                 Type = "text",
-                                Flex = 1,
+                                Flex = 3,
                                 Text = project.ProjectName,
+                                Wrap = true,
                                 Color = "#757575",
                                 Size = "sm"
                             },
@@ -78,33 +99,37 @@ public class DailyMessageQuotaNotifyJob(
                                 Size = "sm"
                             }
                         ]
-                    };
-                    flexMessage.Contents?.Body?.Contents?.ToList().Insert(i, content);
-                    i++;
+                    });
                 }
 
-                var alarmPayload = new AlarmPayload
-                {
-                    ProjectId = _appOptions.DailyMessageQuotaNotifyJobOptions.ProjectId,
-                    ChatId = _appOptions.DailyMessageQuotaNotifyJobOptions.ChatId,
-                    AlarmChannel = new LineChannel
-                    {
-                        Type = AlarmChannels.Line.GetDescription(),
-                        Message = flexMessage
-                    }
-                };
-                await alarmService.SendMessageAsync(alarmPayload);
+                if (flexMessage.Contents?.Body?.Contents is null) continue;
+                var bufferContents = new List<Content>(flexMessage.Contents.Body.Contents);
+                bufferContents.InsertRange(i, contentBlank, contentBotName, contentBotQuota);
+                bufferContents.InsertRange(i + 3, contentProjects);
+                flexMessage.Contents.Body.Contents = bufferContents.ToArray();
+                i += 3 + contentProjects.Count;
             }
+
+            var alarmPayload = new AlarmPayload
+            {
+                ProjectId = _appOptions.DailyMessageQuotaNotifyJobOptions.ProjectId,
+                ChatId = _appOptions.DailyMessageQuotaNotifyJobOptions.ChatId,
+                AlarmChannel = new LineChannel
+                {
+                    Type = AlarmChannels.Line.GetDescription(),
+                    Message = flexMessage
+                }
+            };
+            await alarmService.SendMessageAsync(alarmPayload);
         }
     }
 
-    private string DecodeMessage(string message, BotInfo botInfo, string quota)
+    private string DecodeMessage(string message, string quota)
     {
         var variables = message.BetweenRange("{{", "}}");
 
         return variables.Aggregate(message, (current, variable) => variable switch
         {
-            "botName" => current.Replace("{{" + variable + "}}", botInfo.DisplayName),
             "quota" => current.Replace("{{" + variable + "}}", quota),
             "timestamp" => current.Replace("{{" + variable + "}}",
                 DateTimeHelper.DateTimeToString(DateTimeHelper.ConvertByTimeZone(DateTime.UtcNow, _appOptions.TimeZone),

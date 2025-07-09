@@ -1,4 +1,5 @@
-@token=eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJRelAzSWQwZW92NE9DZW1UR09yQU5lN1J3aFJscE1TYzVPRkx3LXBYZk5VIn0.eyJleHAiOjE3NDI3MTc0MjAsImlhdCI6MTc0MjcxNzEyMCwianRpIjoiYWNjYjdhZTgtODQyMy00NjIyLTk4YjAtNTc3NTlhYTRlNzk2IiwiaXNzIjoiaHR0cHM6Ly9hdXRoLmlvdHNlcnZlci5pbi50aC9yZWFsbXMveGFsYXJtIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6ImYzNTE5MzVlLWMwYWItNDEzMi05NDY0LTY1ZWM0ODdlMDBmYiIsInR5cCI6IkJlYXJlciIsImF6cCI6InhhbGFybS1hZG1pbi1jbGllbnQiLCJzaWQiOiJmZjMxZjlmYS1lNzFlLTRkZGYtYjFhYy00MTQ5MDk2ZWFmODkiLCJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbIi8qIl0sInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJyZWFsbS1iYXNpYyIsInJlYWxtLWFkbWluaXN0cmF0b3IiLCJvZmZsaW5lX2FjY2VzcyIsImRlZmF1bHQtcm9sZXMteGFsYXJtIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIGVtYWlsIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsIm5hbWUiOiJUaGFpU0NBREEgRGV2IiwicHJlZmVycmVkX3VzZXJuYW1lIjoiZGV2LnRoYWlzY2FkYUBnbWFpbC5jb20iLCJnaXZlbl9uYW1lIjoiVGhhaVNDQURBIiwiZmFtaWx5X25hbWUiOiJEZXYiLCJlbWFpbCI6ImRldi50aGFpc2NhZGFAZ21haWwuY29tIn0.d50w1F-HzyMthuhesTZihI90pa8B_mAY5JdUWclJal7mWhbHQYXkKvRP2l307HK49Rqifwc45I-0lBi02w_oAo24285VtKh8MZTWJ1WH4Dz2L5eK1UDaWPub-lD29ghzlJSznLgkkVQRL3T5ofrHgbnhV732qpahlWH36D1Zq5vod25-P9e6FBT4eDRcgzflGWo4YlklDUTkv1nTZoiHZ06jBD6OoNYbOl2iZQqzvDGv_xIcslm5_wM0PgORrAJG-HZxvlAxtOeY5r1PwJYfRhHpRz6q3q43n3bPM8H4VYrY1nOZMYXXKknLo6s5SkBI_O4Z-P33P03P9A30a1W7yQ
+@token=eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJRelAzSWQwZW92NE9DZW1UR09yQU5lN1J3aFJscE1TYzVPRkx3LXBYZk5VIn0.eyJleHAiOjE3NTIwNzY5MDUsImlhdCI6MTc1MjA3NjYwNSwianRpIjoiNDU0OGEwM2MtMmI5ZS00ZDMyLTgyMDktMmE3ODg3NjljNzE1IiwiaXNzIjoiaHR0cHM6Ly9hdXRoLmlvdHNlcnZlci5pbi50aC9yZWFsbXMveGFsYXJtIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6ImYzNTE5MzVlLWMwYWItNDEzMi05NDY0LTY1ZWM0ODdlMDBmYiIsInR5cCI6IkJlYXJlciIsImF6cCI6InhhbGFybS1hZG1pbi1jbGllbnQiLCJzaWQiOiI3ZGEyZTRmOS04ZDA2LTQ0MDYtYjIzOC1hYjNmNjMwMDJmODkiLCJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbIi8qIl0sInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJyZWFsbS1iYXNpYyIsInJlYWxtLWFkbWluaXN0cmF0b3IiLCJvZmZsaW5lX2FjY2VzcyIsImRlZmF1bHQtcm9sZXMteGFsYXJtIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIGVtYWlsIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsIm5hbWUiOiJUaGFpU0NBREEgRGV2IiwicHJlZmVycmVkX3VzZXJuYW1lIjoiZGV2LnRoYWlzY2FkYUBnbWFpbC5jb20iLCJnaXZlbl9uYW1lIjoiVGhhaVNDQURBIiwiZmFtaWx5X25hbWUiOiJEZXYiLCJlbWFpbCI6ImRldi50aGFpc2NhZGFAZ21haWwuY29tIn0.Vy8U2rqRgJU8OKOUaJYTA0nvyy1r9_Qjn9jiZCe-yW6ftqTlqC9h1gnuMInMqAfVP5Gy98JG8IxKcbfBYzx9px1HU-iivQTaDAvhxoIeU2qeaPyMh3CFmaG2zcbRcfWnz5zTYTh5shTch5fZGF4ky0lqy9mqEU-8Lb8B3mGCG0X6eKkNQwHq2Md57x-g-k7_R3s1SD_CfByjUANL8YL-YWkf0MtNzoO3Lo60HntUcm9ASrP4A2RCyaCBTM-UYdu1VlyeSDKtHKT-lkoQd3mlQKHXLXCd47BoqnJQktH48os2cJu8NnjpWOGiuKIdmYiplmzGynUCUp4RYTCuMZ2zWA
+@url=http://localhost:5020
 
 ###
 
@@ -14,12 +15,66 @@ password = Wththaiscada13579#
 
 ###
 
-POST http://localhost:5020/api/projects/search
+POST {{url}}/api/projects/search
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
   "keyword": ""
+}
+
+###
+
+GET {{url}}/api/projects/get/0197bbb5-4371-78d8-8bb2-76df02fe6a92
+Authorization: Bearer {{token}}
+
+###
+
+POST {{url}}/api/projects/save
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "project": {
+    "projectId": "f4f47526-fe67-4c3f-a36b-68668f009e72",
+    "projectGroupId": "f4f47526-fe67-4c3f-a36b-68668f009e72",
+    "projectName": "xWeb - TEDA",
+    "validUntil": "2026-07-06T00:00:00",
+    "invoiceNo": "",
+    "dongleId": "",
+    "projectOptions": {
+      "emailOptions": {
+        "smtpHost": "",
+        "smtpPort": 0,
+        "username": "",
+        "password": "",
+        "sender": "",
+        "recipients": "",
+        "subject": "",
+        "enabled": false,
+        "tokenProvider": 0
+      },
+      "lineOptions": {
+        "url": "",
+        "token": "nMuD12+ydfyebgAzsZlUWVbKjq3QW47NNkdtCNNUdgux0PnrhJ+X0xSAV3dOd7Fjt6Xg8vtyyfYZ1KTsLYmMTY/uHK3ipRzmOi03zMuqrkOVoZCSp4GTELPXeMHgg+b3nVuzqXaXl1LpYM2BjpvwCQdB04t89/1O/w1cDnyilFU=",
+        "getTargetLimitThisMonthUrl": "",
+        "getNumberOfMessagesSentThisMonthUrl": "",
+        "getNumberOfUsersInGroupChatUrl": "",
+        "targetLimitThisMonth": 7500,
+        "numberOfMessagesSentThisMonth": 1280,
+        "updatedAtUtc": "2025-07-07T07:06:02.3993979Z",
+        "enabled": true,
+        "tokenProvider": 2
+      },
+      "telegramOptions": {
+        "url": "",
+        "token": "8195040424:AAH4yq8EB4yY09ffeTKWh4JFkWq_5dl85HM",
+        "enabled": true,
+        "tokenProvider": 0
+      }
+    },
+    "id": "0197bbb5-4371-78d8-8bb2-76df02fe6a92"
+  }
 }
 
 ###
@@ -60,84 +115,126 @@ Authorization: Bearer XsHQB267fv3aQvspwnL+3iFIMkF+JT7uJZ0RFYgq283p0t0bZbUoWsh66/
 {
     "to": "C7508cb82e02b1c9f858d816ce97e5f31",
     "messages": [
-        {
-            "altText": "Service Unavailable",
-            "contents": {
-                "type": "bubble",
-                "body": {
-                    "type": "box",
-                    "layout": "vertical",
-                    "contents": [
-                        {
-                            "type": "text",
-                            "text": "Identity Server Unavailable",
-                            "color": "#ff0000",
-                            "weight": "bold",
-                            "size": "lg"
-                        },
-                        {
-                            "type": "box",
-                            "layout": "vertical",
-                            "margin": "lg",
-                            "spacing": "sm",
-                            "contents": [
-                                {
-                                    "type": "box",
-                                    "layout": "baseline",
-                                    "spacing": "sm",
-                                    "contents": [
-                                        {
-                                            "type": "text",
-                                            "flex": 1,
-                                            "text": "Desc.",
-                                            "color": "#757575",
-                                            "size": "sm"
-                                        },
-                                        {
-                                            "type": "text",
-                                            "flex": 5,
-                                            "text": "502 Bad Gateway",
-                                            "wrap": true,
-                                            "color": "#666666",
-                                            "size": "sm"
-                                        }
-                                    ]
-                                },
-                                {
-                                    "type": "box",
-                                    "layout": "baseline",
-                                    "spacing": "sm",
-                                    "contents": [
-                                        {
-                                            "type": "text",
-                                            "flex": 1,
-                                            "text": "Time",
-                                            "color": "#757575",
-                                            "size": "sm"
-                                        },
-                                        {
-                                            "type": "text",
-                                            "flex": 5,
-                                            "text": "Sun Jun 29 21:40",
-                                            "wrap": true,
-                                            "color": "#666666",
-                                            "size": "sm"
-                                        }
-                                    ]
-                                }
-                            ]
-                        },
-                        {
-                            "type": "text",
-                            "text": "250/300",
-                            "color": "#757575",
-                            "size": "xxs",
-                            "align": "end"
-                        }
-                    ]
-                }
-            },
-            "type": "flex"
-        }
+      {
+        "altText": "Daily Report - Message Quota",
+        "contents": {
+          "type": "bubble",
+          "body": {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+              {
+                "type": "text",
+                "text": "xView001",
+                "color": "#ff0000",
+                "weight": "bold",
+                "size": "lg"
+              },
+              {
+                "type": "text",
+                "text": "1293/15000 (8%)"
+              },
+              {
+                "type": "box",
+                "layout": "baseline",
+                "spacing": "sm",
+                "contents": [
+                  {
+                    "type": "text",
+                    "flex": 3,
+                    "text": "xWeb - TEDA",
+                    "wrap": true,
+                    "color": "#757575",
+                    "size": "sm"
+                  },
+                  {
+                    "type": "text",
+                    "flex": 5,
+                    "text": "1293/7500 (17%)",
+                    "wrap": true,
+                    "color": "#666666",
+                    "size": "sm"
+                  }
+                ]
+              },
+              {
+                "type": "text",
+                "text": "TSBot",
+                "color": "#ff0000",
+                "weight": "bold",
+                "size": "lg"
+              },
+              {
+                "type": "text",
+                "text": "40/300 (13%)"
+              },
+              {
+                "type": "box",
+                "layout": "baseline",
+                "spacing": "sm",
+                "contents": [
+                  {
+                    "type": "text",
+                    "flex": 3,
+                    "text": "Test",
+                    "wrap": true,
+                    "color": "#757575",
+                    "size": "sm"
+                  },
+                  {
+                    "type": "text",
+                    "flex": 5,
+                    "text": "1/7500 (0%)",
+                    "wrap": true,
+                    "color": "#666666",
+                    "size": "sm"
+                  }
+                ]
+              },
+              {
+                "type": "box",
+                "layout": "baseline",
+                "spacing": "sm",
+                "contents": [
+                  {
+                    "type": "text",
+                    "flex": 3,
+                    "text": "xWeb - IoT",
+                    "wrap": true,
+                    "color": "#757575",
+                    "size": "sm"
+                  },
+                  {
+                    "type": "text",
+                    "flex": 5,
+                    "text": "0/7500 (0%)",
+                    "wrap": true,
+                    "color": "#666666",
+                    "size": "sm"
+                  }
+                ]
+              },
+              {
+                "type": "text",
+                "flex": 5,
+                "text": "Wed, Jul 09, 2025, 15:16",
+                "wrap": true,
+                "color": "#666666",
+                "size": "sm",
+                "align": "end"
+              },
+              {
+                "type": "text",
+                "text": "41/300 (13%)",
+                "color": "#0000ff",
+                "size": "xxs",
+                "align": "end",
+                "offsetTop": "5px"
+              }
+            ]
+          }
+        },
+        "type": "flex"
+      }
     ]
 }

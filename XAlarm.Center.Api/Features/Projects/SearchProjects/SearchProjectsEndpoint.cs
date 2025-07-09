@@ -1,7 +1,5 @@
 using FastEndpoints;
 using Microsoft.EntityFrameworkCore;
-using XAlarm.Center.Contract.Mappers;
-using XAlarm.Center.Contract.Projects;
 using XAlarm.Center.Domain.Users;
 using XAlarm.Center.Infrastructure;
 using XAlarm.Center.Shared.Extensions;
@@ -20,9 +18,8 @@ public class SearchProjectsEndpoint(ApplicationDbContext dbContext)
 
     public override async Task HandleAsync(SearchProjectsRequest request, CancellationToken cancellationToken)
     {
-        var users = await dbContext.Projects.AsNoTracking().OrderBy(x => x.ProjectName)
-            .Select(x => x.MapTo<ProjectDto>()).ToListAsync(cancellationToken);
-
-        await SendResultAsync(TypedResults.Ok(new SearchProjectsResponse(users)));
+        var projects = await dbContext.Projects.AsNoTracking().OrderBy(x => x.ProjectName)
+            .ToListAsync(cancellationToken);
+        await SendResultAsync(TypedResults.Ok(new SearchProjectsResponse(projects)));
     }
 }
