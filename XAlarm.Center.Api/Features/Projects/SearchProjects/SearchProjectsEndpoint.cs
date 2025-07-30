@@ -20,6 +20,6 @@ public class SearchProjectsEndpoint(ApplicationDbContext dbContext)
     {
         var projects = await dbContext.Projects.AsNoTracking().OrderBy(x => x.ProjectName)
             .ToListAsync(cancellationToken);
-        await SendResultAsync(TypedResults.Ok(new SearchProjectsResponse(projects)));
+        await Send.ResultAsync(TypedResults.Ok(new SearchProjectsResponse(projects)));
     }
 }

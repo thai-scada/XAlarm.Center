@@ -34,6 +34,6 @@ public class SaveProjectEndpoint(ApplicationDbContext dbContext) : Endpoint<Save
             await dbContext.SaveChangesAsync(cancellationToken);
         }
 
-        await SendResultAsync(TypedResults.Ok(new SaveProjectResponse(request.Project.Id)));
+        await Send.ResultAsync(TypedResults.Ok(new SaveProjectResponse(request.Project.Id)));
     }
 }

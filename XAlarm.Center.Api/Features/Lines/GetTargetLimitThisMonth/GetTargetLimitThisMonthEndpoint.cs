@@ -17,7 +17,7 @@ public class GetTargetLimitThisMonthEndpoint(ILineService lineService)
 
     public override async Task HandleAsync(GetTargetLimitThisMonthRequest request, CancellationToken cancellationToken)
     {
-        await SendResultAsync(TypedResults.Ok(
+        await Send.ResultAsync(TypedResults.Ok(
             new GetTargetLimitThisMonthResponse(
                 await lineService.GetTargetLimitThisMonthAsync(request.ProjectId, request.Token))));
     }

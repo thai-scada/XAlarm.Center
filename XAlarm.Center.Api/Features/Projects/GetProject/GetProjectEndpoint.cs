@@ -22,8 +22,8 @@ public class GetProjectEndpoint(ApplicationDbContext dbContext) : Endpoint<GetPr
         var project = await dbContext.Projects.AsNoTracking()
             .SingleOrDefaultAsync(x => x.Id == request.Id, cancellationToken: cancellationToken);
         if (project is not null)
-            await SendResultAsync(TypedResults.Ok(new GetProjectResponse(project)));
+            await Send.ResultAsync(TypedResults.Ok(new GetProjectResponse(project)));
         else
-            await SendResultAsync(Result.Failure(GetProjectErrors.NotFound).ToProblemDetails());
+            await Send.ResultAsync(Result.Failure(GetProjectErrors.NotFound).ToProblemDetails());
     }
 }

@@ -16,7 +16,7 @@ public class SendMessageEndpoint(IAlarmService alarmService) : Endpoint<SendMess
 
     public override async Task HandleAsync(SendMessageRequest request, CancellationToken cancellationToken)
     {
-        await SendResultAsync(
+        await Send.ResultAsync(
             TypedResults.Ok(new SendMessageResponse(await alarmService.SendMessageAsync(request.AlarmPayload))));
     }
 }

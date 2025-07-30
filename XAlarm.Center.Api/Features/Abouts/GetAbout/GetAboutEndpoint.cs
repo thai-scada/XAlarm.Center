@@ -15,6 +15,6 @@ public class GetAboutEndpoint : EndpointWithoutRequest<GetAboutResponse>
 
     public override async Task HandleAsync(CancellationToken cancellationToken)
     {
-        await SendResultAsync(TypedResults.Ok());
+        await Send.ResultAsync(TypedResults.Ok());
     }
 }
