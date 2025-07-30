@@ -18,7 +18,7 @@ public class GetNumberOfMessagesSentThisMonthEndpoint(ILineService lineService)
     public override async Task HandleAsync(GetNumberOfMessagesSentThisMonthRequest request,
         CancellationToken cancellationToken)
     {
-        await SendResultAsync(TypedResults.Ok(
+        await Send.ResultAsync(TypedResults.Ok(
             new GetNumberOfMessagesSentThisMonthResponse(
                 await lineService.GetNumberOfMessagesSentThisMonthAsync(request.ProjectId, request.Token))));
     }

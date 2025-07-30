@@ -26,6 +26,6 @@ public class UploadMessageImageEndpoint : Endpoint<UploadMessageImageRequest, Up
             await request.MessageImageFile.CopyToAsync(fileStream, cancellationToken);
         }
 
-        await SendNoContentAsync(cancellationToken);
+        await Send.NoContentAsync(cancellationToken);
     }
 }

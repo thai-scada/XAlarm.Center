@@ -18,7 +18,7 @@ public class GetQuotaMessageThisMonthEndpoint(ILineService lineService)
     public override async Task HandleAsync(GetQuotaMessageThisMonthRequest request,
         CancellationToken cancellationToken)
     {
-        await SendResultAsync(TypedResults.Ok(new GetQuotaMessageThisMonthResponse(
+        await Send.ResultAsync(TypedResults.Ok(new GetQuotaMessageThisMonthResponse(
             await lineService.GetQuotaMessageThisMonthAsync(request.ProjectId, request.ChatId, request.Token,
                 request.Mode))));
     }
