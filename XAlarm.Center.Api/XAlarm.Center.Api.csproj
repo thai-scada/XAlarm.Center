@@ -11,52 +11,56 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="FastEndpoints" Version="7.0.1" />
-        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.7" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.7">
-          <PrivateAssets>all</PrivateAssets>
-          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        <PackageReference Include="FastEndpoints" Version="7.0.1"/>
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.8"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.8">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="9.0.7" />
-        <PackageReference Include="Scalar.AspNetCore" Version="2.6.5" />
-        <PackageReference Include="Serilog.AspNetCore" Version="9.0.0" />
-        <PackageReference Include="Serilog.Sinks.File" Version="7.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="9.0.8"/>
+        <PackageReference Include="Scalar.AspNetCore" Version="2.7.2"/>
+        <PackageReference Include="Serilog.AspNetCore" Version="9.0.0"/>
+        <PackageReference Include="Serilog.Sinks.File" Version="7.0.0"/>
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\XAlarm.Center.Contract\XAlarm.Center.Contract.csproj" />
-      <ProjectReference Include="..\XAlarm.Center.Domain\XAlarm.Center.Domain.csproj" />
-      <ProjectReference Include="..\XAlarm.Center.Infrastructure\XAlarm.Center.Infrastructure.csproj" />
-      <ProjectReference Include="..\XAlarm.Center.Service\XAlarm.Center.Service.csproj" />
+        <ProjectReference Include="..\XAlarm.Center.Contract\XAlarm.Center.Contract.csproj"/>
+        <ProjectReference Include="..\XAlarm.Center.Domain\XAlarm.Center.Domain.csproj"/>
+        <ProjectReference Include="..\XAlarm.Center.Infrastructure\XAlarm.Center.Infrastructure.csproj"/>
+        <ProjectReference Include="..\XAlarm.Center.Service\XAlarm.Center.Service.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-      <None Update="ext3.dll">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="ext3.so">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <Content Remove="assets\options\app-options.json" />
-      <None Include="assets\options\app-options.json">
-        <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-      </None>
-      <Content Remove="assets\options\app-options.Development.json" />
-      <None Include="assets\options\app-options.Development.json">
-        <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-      </None>
-      <Content Remove="assets\options\project-options.json" />
-      <None Include="assets\options\project-options.json">
-        <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-      </None>
-      <Content Remove="assets\options\project-options.Development.json" />
-      <None Include="assets\options\project-options.Development.json">
-        <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-      </None>
+        <None Update="ext3.dll">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="ext3.so">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <Content Remove="assets\options\app-options.json"/>
+        <None Include="assets\options\app-options.json">
+            <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+        </None>
+        <Content Remove="assets\options\app-options.Development.json"/>
+        <None Include="assets\options\app-options.Development.json">
+            <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+        </None>
+        <Content Remove="assets\options\project-options.json"/>
+        <None Include="assets\options\project-options.json">
+            <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+        </None>
+        <Content Remove="assets\options\project-options.Development.json"/>
+        <None Include="assets\options\project-options.Development.json">
+            <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Features\Messages\" />
+        <Folder Include="Features\Messages\"/>
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(Configuration)' == 'Release'">
+        <Content Remove="appsettings.Development.json"/>
     </ItemGroup>
 
 </Project>

@@ -1,0 +1,19 @@
+<Project>
+    <!-- Global Release configuration for all projects -->
+    <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+        <DebugType>none</DebugType>
+        <DebugSymbols>false</DebugSymbols>
+    </PropertyGroup>
+
+    <!-- Global file exclusions for Release builds -->
+    <ItemGroup Condition="'$(Configuration)' == 'Release'">
+        <Content Remove="**/*Development.json"/>
+    </ItemGroup>
+
+    <!-- Remove PDB files from publish output for all projects -->
+    <Target Name="ExcludePdbFromPublish" BeforeTargets="PrepareForPublish" Condition="'$(Configuration)' == 'Release'">
+        <ItemGroup>
+            <ResolvedFileToPublish Remove="@(ResolvedFileToPublish)" Condition="'%(Extension)' == '.pdb'"/>
+        </ItemGroup>
+    </Target>
+</Project>

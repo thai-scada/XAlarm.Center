@@ -30,10 +30,12 @@ public class DailyMessageQuotaNotifyJob(
     {
         logger.LogInformation("Job '{JobName}' started at: {Now}", context.JobDetail.Key.Name, DateTime.Now);
 
-        var projects = await dbContext.Projects.AsNoTracking().ToListAsync();
+        var projects = await dbContext.Projects.AsNoTracking()
+            .ToListAsync();
         var projectsByTokens = projects
             .Where(x => x.ProjectOptions.LineOptions.TokenProvider == (int)TokenProviders.CommercialServer)
-            .GroupBy(x => x.ProjectOptions.LineOptions.Token).ToList();
+            .GroupBy(x => x.ProjectOptions.LineOptions.Token)
+            .ToList();
         if (projectsByTokens is not [])
         {
             var message =
@@ -72,6 +74,8 @@ public class DailyMessageQuotaNotifyJob(
                 var contentProjects = new List<Content>();
                 foreach (var project in projectsByToken)
                 {
+                    var quotaMessage =
+                        await lineService.GetQuotaMessageThisMonthAsync(project.ProjectId, string.Empty, string.Empty);
                     contentProjects.Add(new Content
                     {
                         Type = "box",
@@ -92,10 +96,9 @@ public class DailyMessageQuotaNotifyJob(
                             {
                                 Type = "text",
                                 Flex = 5,
-                                Text = await lineService.GetQuotaMessageThisMonthAsync(project.ProjectId, string.Empty,
-                                    string.Empty),
+                                Text = quotaMessage,
                                 Wrap = true,
-                                Color = "#666666",
+                                Color = quotaMessage.Contains("*Quota exceeded") ? "#FF0000" : "#666666",
                                 Size = "sm"
                             }
                         ]
