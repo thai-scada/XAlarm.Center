@@ -29,13 +29,16 @@ internal sealed class AlarmService(
 {
     public async Task<MessageEvent> SendMessageAsync(AlarmPayload alarmPayload)
     {
-        var globalSetting = await dbContext.GlobalSettings.AsNoTracking().SingleOrDefaultAsync();
+        var globalSetting = await dbContext.GlobalSettings.AsNoTracking()
+            .SingleOrDefaultAsync();
 
         if (globalSetting is null)
             return new MessageEvent
             {
-                IsSuccess = false, Type = (int)EventTypes.Error,
-                TypeDescription = EventTypes.EmailSent.GetDescription(), MessageBegin = "Invalid system setting"
+                IsSuccess = false,
+                Type = (int)EventTypes.Error,
+                TypeDescription = EventTypes.EmailSent.GetDescription(),
+                MessageBegin = "Invalid system setting"
             };
 
         var project = await dbContext.Projects.AsNoTracking()
@@ -44,8 +47,10 @@ internal sealed class AlarmService(
         if (project is null)
             return new MessageEvent
             {
-                IsSuccess = false, Type = (int)EventTypes.Error,
-                TypeDescription = EventTypes.EmailSent.GetDescription(), MessageBegin = "Invalid project setting"
+                IsSuccess = false,
+                Type = (int)EventTypes.Error,
+                TypeDescription = EventTypes.EmailSent.GetDescription(),
+                MessageBegin = "Invalid project setting"
             };
 
         return alarmPayload.AlarmChannel?.Type switch
@@ -62,8 +67,10 @@ internal sealed class AlarmService(
             if (await IsQuotaExceeded(project, alarmPayload))
                 return new MessageEvent
                 {
-                    IsSuccess = false, Type = (int)EventTypes.QuotaExceeded,
-                    TypeDescription = EventTypes.QuotaExceeded.GetDescription(), MessageBegin = "Quota exceeded"
+                    IsSuccess = false,
+                    Type = (int)EventTypes.QuotaExceeded,
+                    TypeDescription = EventTypes.QuotaExceeded.GetDescription(),
+                    MessageBegin = "Quota exceeded"
                 };
 
             logger.LogInformation("Client: {ProjectId} - {DongleId}", alarmPayload.ProjectId, alarmPayload.DongleId);
@@ -77,20 +84,26 @@ internal sealed class AlarmService(
                   project.DongleId.Contains(alarmPayload.DongleId, StringComparison.OrdinalIgnoreCase)))
                 return new MessageEvent
                 {
-                    IsSuccess = false, Type = (int)EventTypes.Error,
-                    TypeDescription = EventTypes.InvalidLicense.GetDescription(), MessageBegin = "Invalid license"
+                    IsSuccess = false,
+                    Type = (int)EventTypes.Error,
+                    TypeDescription = EventTypes.InvalidLicense.GetDescription(),
+                    MessageBegin = "Invalid license"
                 };
             if (alarmPayload.AlarmChannel is not LineChannel lineChannel)
                 return new MessageEvent
                 {
-                    IsSuccess = false, Type = (int)EventTypes.LineError,
-                    TypeDescription = EventTypes.LineError.GetDescription(), MessageBegin = "Invalid LINE channel"
+                    IsSuccess = false,
+                    Type = (int)EventTypes.LineError,
+                    TypeDescription = EventTypes.LineError.GetDescription(),
+                    MessageBegin = "Invalid LINE channel"
                 };
             if (lineChannel.Message is null)
                 return new MessageEvent
                 {
-                    IsSuccess = false, Type = (int)EventTypes.LineError,
-                    TypeDescription = EventTypes.LineError.GetDescription(), MessageBegin = "LINE message missing"
+                    IsSuccess = false,
+                    Type = (int)EventTypes.LineError,
+                    TypeDescription = EventTypes.LineError.GetDescription(),
+                    MessageBegin = "LINE message missing"
                 };
             var message = lineChannel.Message;
             switch (message?.Type)
@@ -99,7 +112,8 @@ internal sealed class AlarmService(
                     if (message is not FlexMessage flexMessage)
                         return new MessageEvent
                         {
-                            IsSuccess = false, Type = (int)EventTypes.LineError,
+                            IsSuccess = false,
+                            Type = (int)EventTypes.LineError,
                             TypeDescription = EventTypes.LineError.GetDescription(),
                             MessageBegin = "Invalid message format"
                         };
@@ -122,10 +136,10 @@ internal sealed class AlarmService(
                         string.IsNullOrEmpty(alarmPayload.Token)
                             ? project.ProjectOptions.LineOptions.Token
                             : alarmPayload.Token);
-                    httpClient.DefaultRequestHeaders.Add("X-Line-Retry-Key", Guid.NewGuid().ToString());
+                    httpClient.DefaultRequestHeaders.Add("X-Line-Retry-Key", Guid.NewGuid()
+                        .ToString());
 
-                    var payload =
-                        JsonSerializer.Serialize(pushMessagePayload, JsonHelper.IgnoreNullJsonSerializerOptions);
+                    JsonSerializer.Serialize(pushMessagePayload, JsonHelper.IgnoreNullJsonSerializerOptions);
 
                     var response = await httpClient.PostAsJsonAsync(lineOptions.Url, pushMessagePayload,
                         JsonHelper.IgnoreNullJsonSerializerOptions);
@@ -135,9 +149,13 @@ internal sealed class AlarmService(
 
                     var messageEvent = new MessageEvent
                     {
-                        Id = Guid.CreateVersion7(), AlarmPayload = alarmPayload, IsSuccess = true,
-                        EventBeginOnUtc = DateTime.UtcNow, Type = (int)EventTypes.LineSent,
-                        TypeDescription = EventTypes.LineSent.GetDescription(), MessageBegin = "LINE sent"
+                        Id = Guid.CreateVersion7(),
+                        AlarmPayload = alarmPayload,
+                        IsSuccess = true,
+                        EventBeginOnUtc = DateTime.UtcNow,
+                        Type = (int)EventTypes.LineSent,
+                        TypeDescription = EventTypes.LineSent.GetDescription(),
+                        MessageBegin = "LINE sent"
                     };
                     if (project.ProjectOptions.LineOptions.TokenProvider == (int)TokenProviders.CommercialServer)
                         await SaveMessageEvent(messageEvent, project, alarmPayload);
@@ -149,9 +167,13 @@ internal sealed class AlarmService(
             logger.LogError("Error occurred while sending LINE: {Message}", ex.Message);
             var messageEvent = new MessageEvent
             {
-                Id = Guid.CreateVersion7(), AlarmPayload = alarmPayload, IsSuccess = false,
-                EventBeginOnUtc = DateTime.UtcNow, Type = (int)EventTypes.LineError,
-                TypeDescription = EventTypes.LineError.GetDescription(), MessageBegin = ex.Message
+                Id = Guid.CreateVersion7(),
+                AlarmPayload = alarmPayload,
+                IsSuccess = false,
+                EventBeginOnUtc = DateTime.UtcNow,
+                Type = (int)EventTypes.LineError,
+                TypeDescription = EventTypes.LineError.GetDescription(),
+                MessageBegin = ex.Message
             };
             if (project.ProjectOptions.LineOptions.TokenProvider == (int)TokenProviders.CommercialServer)
                 await SaveMessageEvent(messageEvent);
@@ -167,14 +189,16 @@ internal sealed class AlarmService(
             if (alarmPayload.AlarmChannel is not TelegramChannel telegramChannel)
                 return new MessageEvent
                 {
-                    IsSuccess = false, Type = (int)EventTypes.TelegramError,
+                    IsSuccess = false,
+                    Type = (int)EventTypes.TelegramError,
                     TypeDescription = EventTypes.TelegramError.GetDescription(),
                     MessageBegin = "Invalid Telegram channel"
                 };
             if (telegramChannel.Message is null)
                 return new MessageEvent
                 {
-                    IsSuccess = false, Type = (int)EventTypes.TelegramError,
+                    IsSuccess = false,
+                    Type = (int)EventTypes.TelegramError,
                     TypeDescription = EventTypes.TelegramError.GetDescription(),
                     MessageBegin = "Telegram message missing"
                 };
@@ -185,7 +209,8 @@ internal sealed class AlarmService(
                     if (message is not TextMessage textMessage)
                         return new MessageEvent
                         {
-                            IsSuccess = false, Type = (int)EventTypes.TelegramError,
+                            IsSuccess = false,
+                            Type = (int)EventTypes.TelegramError,
                             TypeDescription = EventTypes.TelegramError.GetDescription(),
                             MessageBegin = "Invalid message format"
                         };
@@ -198,8 +223,10 @@ internal sealed class AlarmService(
 
                     return new MessageEvent
                     {
-                        IsSuccess = true, Type = (int)EventTypes.TelegramSent,
-                        TypeDescription = EventTypes.TelegramSent.GetDescription(), MessageBegin = "Telegram sent"
+                        IsSuccess = true,
+                        Type = (int)EventTypes.TelegramSent,
+                        TypeDescription = EventTypes.TelegramSent.GetDescription(),
+                        MessageBegin = "Telegram sent"
                     };
             }
         }
@@ -208,7 +235,8 @@ internal sealed class AlarmService(
             logger.LogError("Error occurred while sending Telegram: {Message}", ex.Message);
             return new MessageEvent
             {
-                IsSuccess = false, Type = (int)EventTypes.TelegramError,
+                IsSuccess = false,
+                Type = (int)EventTypes.TelegramError,
                 TypeDescription = EventTypes.TelegramError.GetDescription(),
                 MessageBegin = ex.Message
             };
@@ -228,7 +256,8 @@ internal sealed class AlarmService(
             if (numberOfUsersInGroupChat.Count > 0)
             {
                 project.ProjectOptions.LineOptions.NumberOfMessagesSentThisMonth += numberOfUsersInGroupChat.Count;
-                await dbContext.Projects.AsNoTracking().Where(x => x.Id == project.Id)
+                await dbContext.Projects.AsNoTracking()
+                    .Where(x => x.Id == project.Id)
                     .ExecuteUpdateAsync(x => x.SetProperty(y => y.ProjectOptions, project.ProjectOptions));
             }
         }
@@ -245,7 +274,19 @@ internal sealed class AlarmService(
         var numberOfUsersInGroupChat = await lineService.GetNumberOfUsersInGroupChat(project.ProjectId,
             alarmPayload.ChatId, project.ProjectOptions.LineOptions.Token);
         if (numberOfUsersInGroupChat.Count == 0) return false;
-        return project.ProjectOptions.LineOptions.NumberOfMessagesSentThisMonth + numberOfUsersInGroupChat.Count >
-               project.ProjectOptions.LineOptions.TargetLimitThisMonth;
+
+        var currentUsage = project.ProjectOptions.LineOptions.NumberOfMessagesSentThisMonth;
+        var targetLimit = project.ProjectOptions.LineOptions.TargetLimitThisMonth;
+        var newMessageCount = numberOfUsersInGroupChat.Count;
+        var wouldExceed = currentUsage + newMessageCount > targetLimit;
+
+        if (wouldExceed)
+            logger.LogError("Quota exceeded for Project {ProjectId}: Current usage: {CurrentUsage}, " +
+                            "Target limit: {TargetLimit}, New message count: {NewMessageCount}, " +
+                            "Would total: {WouldTotal}, Chat ID: {ChatId}",
+                project.ProjectId, currentUsage, targetLimit, newMessageCount,
+                currentUsage + newMessageCount, alarmPayload.ChatId);
+
+        return wouldExceed;
     }
 }

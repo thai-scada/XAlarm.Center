@@ -23,14 +23,16 @@ internal sealed class LineService(
     {
         try
         {
-            var globalSetting = await dbContext.GlobalSettings.AsNoTracking().SingleOrDefaultAsync();
+            var globalSetting = await dbContext.GlobalSettings.AsNoTracking()
+                .SingleOrDefaultAsync();
             if (globalSetting is null)
             {
                 logger.LogError("GetTargetLimitThisMonthAsync - Global setting not found");
                 return new TargetLimitThisMonth(string.Empty, 0);
             }
 
-            var project = await dbContext.Projects.AsNoTracking().SingleOrDefaultAsync(x => x.ProjectId == projectId);
+            var project = await dbContext.Projects.AsNoTracking()
+                .SingleOrDefaultAsync(x => x.ProjectId == projectId);
             if (project is null)
             {
                 logger.LogError("GetTargetLimitThisMonthAsync - Project not found - {ProjectId}", projectId);
@@ -59,14 +61,16 @@ internal sealed class LineService(
     {
         try
         {
-            var globalSetting = await dbContext.GlobalSettings.AsNoTracking().SingleOrDefaultAsync();
+            var globalSetting = await dbContext.GlobalSettings.AsNoTracking()
+                .SingleOrDefaultAsync();
             if (globalSetting is null)
             {
                 logger.LogError("GetNumberOfMessagesSentThisMonthAsync - Global setting not found");
                 return new NumberOfMessagesSentThisMonth(0);
             }
 
-            var project = await dbContext.Projects.AsNoTracking().SingleOrDefaultAsync(x => x.ProjectId == projectId);
+            var project = await dbContext.Projects.AsNoTracking()
+                .SingleOrDefaultAsync(x => x.ProjectId == projectId);
             if (project is null)
             {
                 logger.LogError("GetNumberOfMessagesSentThisMonthAsync - Project not found - {ProjectId}", projectId);
@@ -97,14 +101,16 @@ internal sealed class LineService(
     {
         try
         {
-            var globalSetting = await dbContext.GlobalSettings.AsNoTracking().SingleOrDefaultAsync();
+            var globalSetting = await dbContext.GlobalSettings.AsNoTracking()
+                .SingleOrDefaultAsync();
             if (globalSetting is null)
             {
                 logger.LogError("GetNumberOfUsersInGroupChat - Global setting not found");
                 return new NumberOfUsersInGroupChat(0);
             }
 
-            var project = await dbContext.Projects.AsNoTracking().SingleOrDefaultAsync(x => x.ProjectId == projectId);
+            var project = await dbContext.Projects.AsNoTracking()
+                .SingleOrDefaultAsync(x => x.ProjectId == projectId);
             if (project is null)
             {
                 logger.LogError("GetNumberOfUsersInGroupChat - Project not found - {ProjectId}", projectId);
@@ -133,16 +139,28 @@ internal sealed class LineService(
         var numberOfUsersInGroupChat = mode == 1
             ? await GetNumberOfUsersInGroupChat(projectId, groupId, token)
             : new NumberOfUsersInGroupChat(0);
-        return mode == 0
-            ? $"{numberOfMessagesSentThisMonth.TotalUsage:N0} / {targetLimitThisMonth.Value:N0} ({Convert.ToInt32(numberOfMessagesSentThisMonth.TotalUsage * 100 / targetLimitThisMonth.Value)}%)"
-            : $"{numberOfMessagesSentThisMonth.TotalUsage + numberOfUsersInGroupChat.Count:N0} / {targetLimitThisMonth.Value} ({Convert.ToInt32((numberOfMessagesSentThisMonth.TotalUsage + numberOfUsersInGroupChat.Count) * 100 / targetLimitThisMonth.Value)}%)";
+
+        var totalUsage = mode == 0
+            ? numberOfMessagesSentThisMonth.TotalUsage
+            : numberOfMessagesSentThisMonth.TotalUsage + numberOfUsersInGroupChat.Count;
+
+        var percentage = Convert.ToInt32(totalUsage * 100 / targetLimitThisMonth.Value);
+
+        var quotaMessage = mode == 0
+            ? $"{numberOfMessagesSentThisMonth.TotalUsage:N0} / {targetLimitThisMonth.Value:N0} ({percentage}%)"
+            : $"{numberOfMessagesSentThisMonth.TotalUsage + numberOfUsersInGroupChat.Count:N0} / {targetLimitThisMonth.Value} ({percentage}%)";
+
+        if (percentage >= 100) quotaMessage += " *Quota exceeded";
+
+        return quotaMessage;
     }
 
     public async Task<BotInfo> GetBotInfoAsync(string token)
     {
         try
         {
-            var globalSetting = await dbContext.GlobalSettings.AsNoTracking().SingleOrDefaultAsync();
+            var globalSetting = await dbContext.GlobalSettings.AsNoTracking()
+                .SingleOrDefaultAsync();
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             var botInfo = await httpClient.GetFromJsonAsync<BotInfo>("https://api.line.me/v2/bot/info") ??
                           new BotInfo();
